@@ -1,0 +1,102 @@
+<html>
+<head>
+	<title>pixers</title>
+	<link rel="stylesheet" type="text/css" href="pixers.css">
+
+</head>
+<body>
+<div id="title">pixers</div>
+<canvas id="myCanvas" width="800px" height="600px"></canvas>
+<div id="frameinfo"><span class="frame_label">frame count:</span><div id="framecounter" class="info"></div></div><br>
+<div class="info" id="toggle">
+	<a href="#" onclick="togglePlay();return false;"><span id="pausetxt">pause</span></a> | 
+	<a href="#" onclick="saveImg();return false;">save as png</a> | 
+	<a id="clear" href="#" onclick="clearCanvas();return false;">clear</a>
+</div>
+<a href="#" onclick="toggleControls();return false;"><div id="paneltoggle">open control panel +</div></a>
+<div id="panel">
+	<div class="plusminus_wrap">
+		<div class="plusminus">
+			<div onclick="changePixerCount('across',-1)" class="plusminus_btn">-</div>
+			<input type="text" name="pixers_across" id="pixers_across" value="">
+			<div onclick="changePixerCount('across',1)" class="plusminus_btn">+</div>
+			<div class="plusminus_label">pixers across</div>
+		</div>
+
+		<div class="plusminus">
+			<div onclick="changePixerCount('down',-1)" class="plusminus_btn">-</div>
+			<input type="text" name="pixers_down" id="pixers_down" value="">
+			<div onclick="changePixerCount('down',1)" class="plusminus_btn">+</div>
+			<div class="plusminus_label">pixers down</div>
+		</div>
+
+		<div class="positioning"><div class="position_label">starting positions:</div><a href="#" onclick="pickOption(1);return false;"><span class="option picked" id="option1">random</span></a><a href="#" onclick="pickOption(2);return false;"><span class="option" id="option2">space evenly</span></a></div>
+	</div>
+	<div class="colorpalette_wrap">
+		<div class="colorpalette_label">initial color palette:</div>
+		<div class="colorpalette_box" id="color0"></div>
+		<div class="colorpalette_box" id="color1"></div>
+		<div class="colorpalette_box" id="color2"></div>
+		<div class="colorpalette_box" id="color3"></div>
+		<div class="colorpalette_box" id="color4"></div>
+		<div class="colorpalette_box" id="color5"></div>
+		<div class="colorpalette_box" id="color6"></div>
+		<div class="colorpalette_box" id="color7"></div>
+		<div class="colorpalette_box" id="color8"></div>
+		<div class="colorpalette_box" id="color9"></div><br>
+		<a class="notredlink" href="#" onclick="addColor();return false;">add new color</a> | <a class="redlink" href="#" onclick="removeColor();return false;">remove selected color</a>
+	</div>
+
+	<div class="colorpick_wrap">
+		<div class="colorpick">
+			<div class="colorpalette_label">color editor:</div><br>
+			<div class="colorpick_label red">r:</div>
+			<input type="text" class="colorinput" name="color_r" id="color_r" value="">
+			<div class="colorpick_label green">g:</div>
+			<input type="text" class="colorinput" name="color_g" id="color_g" value="">
+			<div class="colorpick_label blue">b:</div>
+			<input type="text" class="colorinput" name="color_b" id="color_b" value=""><br>
+			<div id="colordisplay">select palette color to edit</div>
+		</div>
+	</div>
+	<div id="btn_randomize" onclick="randomizeAll();return false;"><span class="largetext">randomize everything</span></div>
+	<div id="preset_links">some presets for inspiration:<br>
+		<a href="#" onclick="choosePreset('simple');return false;">simple</a> | 
+		<a href="#" onclick="choosePreset('lines');return false;">lines</a> | 
+		<a href="#" onclick="choosePreset('clouds');return false;">clouds</a> | 
+		<a href="#" onclick="choosePreset('fire');return false;">fire</a> | 
+		<a href="#" onclick="choosePreset('trees');return false;">trees</a> |
+		<a href="#" onclick="choosePreset('twotone');return false;">two-tone</a> | 
+		<a href="#" onclick="choosePreset('horizon');return false;">horizon</a>
+	</div>
+	<div id="btn_restart" onclick="restartDrawing();return false;"><span class="largetext">restart drawing</span><br><span class="smalltext">with these settings</span></div>
+</div>
+
+<a href="#" onclick="toggleInfoBox();return false;"><div id="infobox_toggle">what is this?</div></a>
+<div id="infobox">
+	Pixers are tiny (1px by 1px) creatures. They move completely randomly. To start, each pixer is randomly assigned a color from the chosen color palette.<br><br>When a pixer passes over a blank pixel, the pixel takes on the pixer's color. When a pixer passes over a colored pixel, the color of the pixel and the color of the pixer are averaged. Both pixel and pixer take on this average color. The pixel remains, but the pixer keeps moving, blending colors together.<br><br>I encourage you to play with the settings and see what you can make the pixers do. Even when using the same settings, no two pixer drawings are alike.
+	<div id="byline">a project by <a href="http://reidbm.com" target="_blank">reid</a></div>
+</div>
+
+<script src="pixers.js"></script>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+var sc_project=10072371; 
+var sc_invisible=1; 
+var sc_security="ee736b05"; 
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter"><a title="web analytics"
+href="http://statcounter.com/" target="_blank"><img
+class="statcounter"
+src="http://c.statcounter.com/10072371/0/ee736b05/1/"
+alt="web analytics"></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>
