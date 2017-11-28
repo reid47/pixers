@@ -570,13 +570,11 @@ function toggleControls() {
 
 function toggleInfoBox() {
 	if (!infoBoxShown) {
-		byId('infobox_toggle').innerHTML = 'okay, got it';
+		byId('toggle-info').innerHTML = 'okay, got it';
 		byId('infobox').style.display = 'block';
-		byId('infobox_toggle').style.bottom = '225';
 	} else {
-		byId('infobox_toggle').innerHTML = 'what is this?';
+		byId('toggle-info').innerHTML = 'what is this?';
 		byId('infobox').style.display = 'none';
-		byId('infobox_toggle').style.bottom = '0';
 	}
 	infoBoxShown = !infoBoxShown;
 }

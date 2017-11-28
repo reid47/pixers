@@ -7,8 +7,14 @@ body {
   margin: 0 auto;
 }
 
-a {
+a, button {
   color: #eee;
+  text-decoration: underline;
+  background: transparent;
+  padding: 0;
+  border: none;
+  font-family: inherit;
+  cursor: pointer;
 }
 
 #title {
@@ -33,6 +39,15 @@ a {
   float: right;
 }
 
-#toggle-controls {
+#panel {
+  display: none;
+}
+
+#toggle-controls, #toggle-info {
   margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+#infobox {
+  display: none;
 }

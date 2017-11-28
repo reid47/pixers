@@ -12,14 +12,14 @@
   <link rel="stylesheet" type="text/css" href="pixers.css">
 </head>
 <body>
-  <div id="title">pixers</div>
+  <h1 id="title">pixers</h1>
 
   <canvas id="canvas" width="800px" height="600px"></canvas>
 
   <div id="canvas-info">
     <span id="controls">
-      <a href="#" onclick="togglePlay();return false;"><span id="pausetxt">pause</span></a> | 
-      <a id="clear" href="#" onclick="clearCanvas();return false;">clear</a>
+      <button onclick="togglePlay();"><span id="pausetxt">pause</span></button> | 
+      <button id="clear" href="#" onclick="clearCanvas();">clear</button>
     </span>
     <span id="frame-info">frame count: <span id="framecounter"></span></span>
   </div>
@@ -88,14 +88,30 @@
     </div>
     <div id="btn_restart" onclick="restartDrawing();return false;"><span class="largetext">restart drawing</span><br><span class="smalltext">with these settings</span></div>
   </div>
-
-  <a href="#" onclick="toggleInfoBox();return false;"><div id="infobox_toggle">what is this?</div></a>
   
   <div id="infobox">
-    Pixers are tiny (1px by 1px) creatures. They move completely randomly. To start, each pixer is randomly assigned a color from the chosen color palette.<br><br>When a pixer passes over a blank pixel, the pixel takes on the pixer's color. When a pixer passes over a colored pixel, the color of the pixel and the color of the pixer are averaged. Both pixel and pixer take on this average color. The pixel remains, but the pixer keeps moving, blending colors together.<br><br>I encourage you to play with the settings and see what you can make the pixers do. Even when using the same settings, no two pixer drawings are alike.
-    <div id="byline">a project by <a href="http://reidmitchell.net" target="_blank">reid</a></div>
+    <p>
+      Pixers are tiny (1px by 1px) creatures. They move completely 
+      randomly. To start, each pixer is randomly assigned a color 
+      from the chosen color palette.
+    </p><p>
+      When a pixer passes over a blank pixel, the pixel takes on 
+      the pixer's color. When a pixer passes over a colored pixel, 
+      the color of the pixel and the color of the pixer are 
+      averaged. Both pixel and pixer take on this average color. 
+      The pixel remains, but the pixer keeps moving, blending 
+      colors together.
+    </p><p>
+      I encourage you to play with the settings and see what you 
+      can make the pixers do. Even when using the same settings, 
+      no two pixer drawings are alike.
+    </p>
   </div>
 
+  <button onclick="toggleInfoBox();" id="toggle-info">what is this?</button>
+
+  <div id="byline">a project by <a href="http://reidmitchell.net" target="_blank">reid</a></div>
+  
   <script src="pixers.js"></script>
 </body>
 </html>
