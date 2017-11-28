@@ -88,7 +88,9 @@
     </div>
     <div id="btn_restart" onclick="restartDrawing();return false;"><span class="largetext">restart drawing</span><br><span class="smalltext">with these settings</span></div>
   </div>
-  
+
+  <button onclick="toggleInfoBox();" id="toggle-info">what is this?</button>
+
   <div id="infobox">
     <p>
       Pixers are tiny (1px by 1px) creatures. They move completely 
@@ -105,12 +107,10 @@
       I encourage you to play with the settings and see what you 
       can make the pixers do. Even when using the same settings, 
       no two pixer drawings are alike.
+    </p><p>
+      a project by <a href="http://reidmitchell.net" target="_blank">reid</a>
     </p>
   </div>
-
-  <button onclick="toggleInfoBox();" id="toggle-info">what is this?</button>
-
-  <div id="byline">a project by <a href="http://reidmitchell.net" target="_blank">reid</a></div>
   
   <script src="pixers.js"></script>
 </body>
