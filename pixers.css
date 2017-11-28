@@ -2,8 +2,37 @@ body {
   background: #333;
   color: #eee;
   font-family: monospace;
+  padding: 1rem;
+  width: 800px;
+  margin: 0 auto;
 }
 
 a {
   color: #eee;
+}
+
+#title {
+  font-weight: bold;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  line-height: 1rem;
+}
+
+#canvas-info {
+  margin-top: 0.5rem;
+}
+
+#controls {
+  display: inline-block;
+  width: 50%;
+}
+
+#frame-info {
+  display: inline-block;
+  text-align: right;
+  float: right;
+}
+
+#toggle-controls {
+  margin-top: 1rem;
 }

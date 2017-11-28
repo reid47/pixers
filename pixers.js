@@ -9,7 +9,7 @@ let gInput;
 let bInput;
 let colordisplay;
 let framecounter = byId('framecounter');
-let canvas = byId('myCanvas');
+let canvas = byId('canvas');
 let canvasWidth = canvas.width;
 let canvasHeight = canvas.height;
 let ctx = canvas.getContext('2d');
