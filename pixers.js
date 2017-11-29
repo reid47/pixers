@@ -47,7 +47,6 @@ let canvasData = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
 let timer;
 let frameCount = 0;
 let playing = true;
-let isComplete = false;
 let controlsShown = false;
 let infoBoxShown = false;
 let randomPlacement = true;
@@ -139,28 +138,9 @@ function loop() {
 
     framecounter.innerHTML = frameCount;
     frameCount++;
-
-    isComplete = checkForCompletion();
-
-    if (isComplete) {
-      togglePlay();
-      window.location.reload();
-    }
   }
 
   timer = setTimeout('loop()', 1);
-}
-
-function checkForCompletion() {
-  for (let i = 0; i < canvasData.data.length; i += 4) {
-    if (canvasData.data[i + 0] === 255
-      && canvasData.data[i + 1] === 255
-      && canvasData.data[i + 2] === 255) {
-      return false;
-    }
-  }
-
-  return true;
 }
 
 function initializeColorPalette() {
