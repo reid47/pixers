@@ -2,9 +2,10 @@ body {
   background: #333;
   color: #eee;
   font-family: monospace;
-  padding: 1rem;
+  padding: 1rem 0;
   width: 800px;
   margin: 0 auto;
+  box-sizing: border-box;
 }
 
 a, button {
@@ -18,7 +19,7 @@ a, button {
 }
 
 .position-button {
-  padding: 0.25rem;
+  padding: 0.25rem 0.5rem;
   border: 1px solid currentColor;
   background: transparent;
   text-decoration: none;
@@ -30,8 +31,9 @@ input[type="number"], input[type="text"] {
   color: currentColor;
   border: 1px solid currentColor;
   text-align: center;
+  font-family: inherit;
   padding: 0.25rem;
-  -moz-appearance:textfield;
+  -moz-appearance: textfield;
 }
 
 input[type=number]::-webkit-inner-spin-button,
@@ -68,12 +70,6 @@ input[type=number]::-webkit-outer-spin-button {
   float: right;
 }
 
-.colorpalette_box {
-  width: 1rem;
-  height: 1rem;
-  display: inline-block;
-}
-
 #toggle-info {
   margin-top: 1rem;
 }
@@ -89,6 +85,30 @@ input[type=number]::-webkit-outer-spin-button {
   justify-content: space-between;
 }
 
-#color-settings {
+#color-palette {
+  display: flex;
+  align-items: center;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
 
+.color-palette-item {
+  flex: 1 0 auto;
+  height: 1.5rem;
+  cursor: pointer;
+  border: 1px solid #333;
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+
+.color-palette-item:first-child {
+  margin-left: 0;
+}
+
+.color-palette-item:last-child {
+  margin-right: 0;
+}
+
+.color-palette-item.editing {
+  border: 1px solid #bbb;
 }

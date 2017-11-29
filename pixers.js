@@ -18,6 +18,20 @@ function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+function rgb(r, g, b) {
+  return 'rgb(' + r + ', ' + g + ', ' + b + ')';
+}
+
+function addPaletteColor(r, g, b) {
+  colorPalette.push({r: r, g: g, b: b});
+
+  const paletteEl = el('#color-palette');
+  const newBox = document.createElement('div');
+  newBox.className = 'color-palette-item';
+  newBox.style.backgroundColor = rgb(r, g, b);
+  paletteEl.appendChild(newBox);
+}
+
 let acrossCount;
 let downCount;
 let rInput;
@@ -47,7 +61,7 @@ let pixersInCol = randomInt(1, 50);
 let colorPalette = [];
 let numColors;
 let pixers = [];
-let numPixers = pixersInRow*pixersInCol;
+let numPixers = pixersInRow * pixersInCol;
 let spaceBetweenPixersX = calculateSpacing(pixersInRow, canvasWidth);
 let spaceBetweenPixersY = calculateSpacing(pixersInCol, canvasHeight);
 
@@ -94,11 +108,13 @@ window.onload = function go() {
     if (rInput.value == '')
       rInput.value = 0;
   });
+
   gInput.addEventListener('input', editColor);
   gInput.addEventListener('blur', function() {
     if (gInput.value == '')
       gInput.value = 0;
   });
+
   bInput.addEventListener('input', editColor);
   bInput.addEventListener('blur', function() {
     if (bInput.value == '')
@@ -150,12 +166,13 @@ function checkForCompletion() {
 function initializeColorPalette() {
   numColors = randomInt(2, 9);
   colorPalette = [];
+
   for (let c = 0; c < numColors; c++) {
-    colorPalette[c] = {
-      r: randomInt(0, 255),
-      g: randomInt(0, 255),
-      b: randomInt(0, 255)
-    };
+    const r = randomInt(0, 255);
+    const g = randomInt(0, 255);
+    const b = randomInt(0, 255);
+
+    addPaletteColor(r, g, b);
   }
 }
 
@@ -298,14 +315,10 @@ function choosePreset(preset) {
 }
 
 function randomizeAll() {
-  numColors = Math.floor(Math.random() * 9) + 2;
+  numColors = randomInt(2, 9);
   colorPalette = [];
   for (let c = 0; c < numColors; c++) {
-    colorPalette[c] = {
-      r: randomInt(0, 255),
-      g: randomInt(0, 255),
-      b: randomInt(0, 255)
-    };
+    addPaletteColor(randomInt(0, 255), randomInt(0, 255), randomInt(0, 255));
   }
   randomPlacement = Math.floor(Math.random() * 2);
   pixersInRow = randomInt(1, 100);
@@ -318,11 +331,16 @@ function updatePixerCount() {
   const downInp = el('#pixers_down');
   const newPxAcross = parseInt(el('#pixers_across').value, 10);
   const newPxDown = parseInt(el('#pixers_down').value, 10);
-  if (newPxAcross < 0) { acrossInp.value = 1; }
-  else if (newPxAcross > 600) { acrossInp.value = 600; }
-  else if (newPxDown < 0) { downInp.value = 1; }
-  else if (newPxDown > 400) { downInp.value = 400; }
-  else {
+
+  if (newPxAcross < 0) {
+    acrossInp.value = 1;
+  } else if (newPxAcross > 600) {
+    acrossInp.value = 600;
+  } else if (newPxDown < 0) {
+    downInp.value = 1;
+  } else if (newPxDown > 400) {
+    downInp.value = 400;
+  } else {
     pixersInRow = newPxAcross;
     pixersInCol = newPxDown;
   }
@@ -402,60 +420,51 @@ function updateControlPanel() {
     addClass(el('#position_even'), 'active');
     removeClass(el('#position_random'), 'active');
   }
-
-  for (let c = 0; c < 10; c++) {
-    if (colorPalette[c] === undefined) {
-      el('#color' + c).removeAttribute('style');
-      el('#color' + c).className = 'colorpalette_box empty';
-    } else {
-      el('#color' + c).className = 'colorpalette_box';
-      let currentColor = 'rgb(' + colorPalette[c].r + ',' + colorPalette[c].g + ',' + colorPalette[c].b + ')';
-      el('#color' + c).style.background = currentColor;
-    }
-  }
-
 }
 
-function loadColorForEditing(e) {
-  e = e || window.event;
-  let target = e.target || e.srcElement;
-  let boxes = document.getElementsByClassName('colorpalette_box');
+function loadColorForEditing(evt) {
+  if (!evt || !evt.target) return;
 
+  const target = evt.target;
+
+  const boxes = els('.color-palette-item');
   for (let b = 0; b < boxes.length; b++) {
-    if (boxes[b].className.match(/active/)) {
-      boxes[b].className = 'colorpalette_box';
-    }
+    removeClass(boxes[b], 'editing');
   }
 
-  if (target.className.match(/empty/)) {
-    editingColor = '';
-    rInput.value = '';
-    gInput.value = '';
-    bInput.value = '';
-    el('#colordisplay').style.backgroundColor = '#cacaca';
-    el('#colordisplay').innerHTML = 'select palette color to edit';
-  } else if (target.className.match(/colorinput/)) {
-    el('#' + editingColor).className = 'colorpalette_box active';
-    return;
-  } else if (target.className.match(/colorpalette_box/)) {
-    target.className = target.className+' active';
-    let id = target.getAttribute('id');
-    editingColor = id;
-    let colorIndex = parseInt(editingColor.charAt(5), 10);
-    rInput.value = colorPalette[colorIndex].r;
-    gInput.value = colorPalette[colorIndex].g;
-    bInput.value = colorPalette[colorIndex].b;
-    let thisColor = 'rgb(' + colorPalette[colorIndex].r + ',' + colorPalette[colorIndex].g + ',' + colorPalette[colorIndex].b + ')';
-    el('#colordisplay').style.backgroundColor = thisColor;
-    el('#colordisplay').innerHTML = 'now editing ' + id;
-  } else {
-    editingColor = '';
-    rInput.value = '';
-    gInput.value = '';
-    bInput.value = '';
-    el('#colordisplay').style.backgroundColor = '#cacaca';
-    el('#colordisplay').innerHTML = 'select palette color to edit';
+  if (target.classList.contains('color-palette-item')) {
+    addClass(target, 'editing');
   }
+
+  // if (target.className.match(/empty/)) {
+  //   editingColor = '';
+  //   rInput.value = '';
+  //   gInput.value = '';
+  //   bInput.value = '';
+  //   el('#colordisplay').style.backgroundColor = '#cacaca';
+  //   el('#colordisplay').innerHTML = 'select palette color to edit';
+  // } else if (target.className.match(/colorinput/)) {
+  //   el('#' + editingColor).className = 'colorpalette_box active';
+  //   return;
+  // } else if (target.className.match(/colorpalette_box/)) {
+  //   target.className = target.className+' active';
+  //   let id = target.getAttribute('id');
+  //   editingColor = id;
+  //   let colorIndex = parseInt(editingColor.charAt(5), 10);
+  //   rInput.value = colorPalette[colorIndex].r;
+  //   gInput.value = colorPalette[colorIndex].g;
+  //   bInput.value = colorPalette[colorIndex].b;
+  //   let thisColor = 'rgb(' + colorPalette[colorIndex].r + ',' + colorPalette[colorIndex].g + ',' + colorPalette[colorIndex].b + ')';
+  //   el('#colordisplay').style.backgroundColor = thisColor;
+  //   el('#colordisplay').innerHTML = 'now editing ' + id;
+  // } else {
+  //   editingColor = '';
+  //   rInput.value = '';
+  //   gInput.value = '';
+  //   bInput.value = '';
+  //   el('#colordisplay').style.backgroundColor = '#cacaca';
+  //   el('#colordisplay').innerHTML = 'select palette color to edit';
+  // }
 }
 
 function clearCanvas() {

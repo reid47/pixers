@@ -40,17 +40,19 @@
   </div>
 
   <div id="color-settings">
-    <div><label>color palette:</label></div>
-    <div class="colorpalette_box" id="color0"></div>
-    <div class="colorpalette_box" id="color1"></div>
-    <div class="colorpalette_box" id="color2"></div>
-    <div class="colorpalette_box" id="color3"></div>
-    <div class="colorpalette_box" id="color4"></div>
-    <div class="colorpalette_box" id="color5"></div>
-    <div class="colorpalette_box" id="color6"></div>
-    <div class="colorpalette_box" id="color7"></div>
-    <div class="colorpalette_box" id="color8"></div>
-    <div class="colorpalette_box" id="color9"></div>
+    <label>color palette:</label>
+    <button onclick="addColor()">add new color</button>
+    <div id="color-palette"></div>
+  </div>
+
+  <div id="color-editor">
+    <label>edit selected color:</label>
+    <label for="color_r">r:</label>
+    <input type="number" min="0" max="255" class="colorinput" id="color_r" value="">
+    <label for="color_g">g:</label>
+    <input type="number" min="0" max="255" class="colorinput" name="color_g" id="color_g" value="">
+    <label for="color_b">b:</label>
+    <input type="number" min="0" max="255" class="colorinput" name="color_b" id="color_b" value=""><br>
   </div>
 
   <div>
@@ -71,13 +73,6 @@
 
     <div class="colorpick_wrap">
       <div class="colorpick">
-        <div class="colorpalette_label">color editor:</div><br>
-        <div class="colorpick_label red">r:</div>
-        <input type="text" class="colorinput" name="color_r" id="color_r" value="">
-        <div class="colorpick_label green">g:</div>
-        <input type="text" class="colorinput" name="color_g" id="color_g" value="">
-        <div class="colorpick_label blue">b:</div>
-        <input type="text" class="colorinput" name="color_b" id="color_b" value=""><br>
         <div id="colordisplay">select palette color to edit</div>
       </div>
     </div>
