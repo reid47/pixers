@@ -1,3 +1,8 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
 body {
   background: #333;
   color: #eee;
@@ -5,7 +10,6 @@ body {
   padding: 1rem 0;
   width: 800px;
   margin: 0 auto;
-  box-sizing: border-box;
 }
 
 a, button {
@@ -39,6 +43,10 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.hidden {
+  display: none !important;
 }
 
 .active {
@@ -84,6 +92,14 @@ input[type=number]::-webkit-outer-spin-button {
   justify-content: space-between;
 }
 
+#color-editor {
+  display: flex;
+  padding: 0.5rem;
+  border: 1px solid #eee;
+  justify-content: space-between;
+  align-items: center;
+}
+
 #add-color {
   float: right;
 }
@@ -117,9 +133,23 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .color-palette-item.editing {
-  -moz-box-shadow: inset 0 0 0 1px #fff;
-  -webkit-box-shadow: inset 0 0 0 1px #fff;
-  box-shadow: inset 0 0 0 1px #fff;
+  position: relative;
+  border: 1px solid #eee;
+}
+
+.color-palette-item.editing:after {
+  display: block;
+  content: '';
+  /*width: 1rem;*/
+  width: calc(100% + 2px);
+  height: calc(1rem + 3px);
+  position: absolute;
+  top: calc(100% - 1px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  border-left: 1px solid #eee;
+  border-right: 1px solid #eee;
 }
 
 #settings-buttons {

@@ -14,6 +14,14 @@ function removeClass(element, className) {
   element.classList.remove(className);
 }
 
+function show(element) {
+  removeClass(element, 'hidden');
+}
+
+function hide(element) {
+  addClass(element, 'hidden');
+}
+
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
@@ -22,53 +30,12 @@ function rgb(r, g, b) {
   return 'rgb(' + r + ', ' + g + ', ' + b + ')';
 }
 
-function addPaletteColor(r, g, b, index) {
-  if (colorPalette.length >= 10) return;
-
-  colorPalette.push({r: r, g: g, b: b});
-
-  const paletteEl = el('#color-palette');
-  const newBox = document.createElement('div');
-  newBox.className = 'color-palette-item';
-  newBox.tabIndex = 0;
-  newBox.style.backgroundColor = rgb(r, g, b);
-  newBox.dataset.r = r;
-  newBox.dataset.g = g;
-  newBox.dataset.b = b;
-  newBox.dataset.paletteIndex = index > 0 ? index : colorPalette.length - 1;
-  newBox.addEventListener('focus', onPaletteColorFocus);
-  newBox.addEventListener('blur', onPaletteColorBlur);
-
-  paletteEl.appendChild(newBox);
-}
-
-function onPaletteColorFocus(evt) {
-  editingPaletteIndex = -1;
-
-  const boxes = els('.color-palette-item');
-  for (let b = 0; b < boxes.length; b++) {
-    removeClass(boxes[b], 'editing');
+function normalizeInputValue(input, min, max) {
+  if (parseInt(input.value, 10) < min || isNaN(input.value)) {
+    input.value = min;
+  } else if (parseInt(input.value, 10) > max) {
+    input.value = max;
   }
-
-  addClass(evt.target, 'editing');
-  rInput.value = evt.target.dataset.r;
-  gInput.value = evt.target.dataset.g;
-  bInput.value = evt.target.dataset.b;
-  editingPaletteIndex = evt.target.dataset.paletteIndex;
-}
-
-function onPaletteColorBlur(evt) {
-  if (evt.relatedTarget && evt.relatedTarget.classList.contains('colorinput')) return;
-
-  const boxes = els('.color-palette-item');
-  for (let b = 0; b < boxes.length; b++) {
-    removeClass(boxes[b], 'editing');
-  }
-
-  rInput.value = '';
-  gInput.value = '';
-  bInput.value = '';
-  editingPaletteIndex = -1;
 }
 
 let acrossCount;
@@ -102,6 +69,82 @@ let pixers = [];
 let numPixers = pixersInRow * pixersInCol;
 let spaceBetweenPixersX = calculateSpacing(pixersInRow, canvasWidth);
 let spaceBetweenPixersY = calculateSpacing(pixersInCol, canvasHeight);
+
+function addPaletteColor(r, g, b, index) {
+  if (colorPalette.length >= 10) return;
+
+  colorPalette.push({r: r, g: g, b: b});
+
+  const paletteEl = el('#color-palette');
+  const newBox = document.createElement('div');
+  newBox.className = 'color-palette-item';
+  newBox.tabIndex = colorPalette.length === 1 ? 0 : -1;
+  newBox.style.backgroundColor = rgb(r, g, b);
+  newBox.dataset.r = r;
+  newBox.dataset.g = g;
+  newBox.dataset.b = b;
+  newBox.dataset.paletteIndex = index > 0 ? index : colorPalette.length - 1;
+  newBox.addEventListener('focus', onPaletteColorFocus);
+  newBox.addEventListener('blur', onPaletteColorBlur);
+  newBox.addEventListener('keydown', onPaletteColorKey);
+
+  paletteEl.appendChild(newBox);
+}
+
+function onPaletteColorFocus(evt) {
+  editingPaletteIndex = -1;
+  const boxes = els('.color-palette-item');
+  for (let b = 0; b < boxes.length; b++) {
+    removeClass(boxes[b], 'editing');
+  }
+
+  addClass(evt.target, 'editing');
+  rInput.value = evt.target.dataset.r;
+  gInput.value = evt.target.dataset.g;
+  bInput.value = evt.target.dataset.b;
+  editingPaletteIndex = evt.target.dataset.paletteIndex;
+  el('#editing-color-index').innerHTML = editingPaletteIndex;
+  show(el('#color-editor'));
+}
+
+function onPaletteColorBlur(evt) {
+  if (evt.relatedTarget &&
+    (evt.relatedTarget.classList.contains('colorinput')
+      || evt.relatedTarget.getAttribute('id') === 'remove-color')) return;
+
+  editingPaletteIndex = -1;
+  const boxes = els('.color-palette-item');
+  for (let b = 0; b < boxes.length; b++) {
+    removeClass(boxes[b], 'editing');
+  }
+
+  hide(el('#color-editor'));
+}
+
+function onPaletteColorKey(evt) {
+  const key = evt.keyCode || evt.which;
+
+  let nextFocusedElement;
+
+  if (key === 37 /*left*/) {
+    if (evt.target) {
+      console.log(evt.target)
+      nextFocusedElement = evt.target.previousElementSibling
+        || evt.target.parentNode.lastElementChild;
+    }
+  } else if (key === 39 /*right*/) {
+    if (evt.target) {
+      nextFocusedElement = evt.target.nextElementSibling
+        || evt.target.parentNode.firstElementChild;
+    }
+  }
+
+  if (nextFocusedElement) {
+    evt.target.tabIndex = -1;
+    nextFocusedElement.tabIndex = 0;
+    nextFocusedElement.focus();
+  }
+}
 
 window.onload = function go() {
   setToWhite();
@@ -137,7 +180,6 @@ window.onload = function go() {
   rInput = el('#color_r');
   gInput = el('#color_g');
   bInput = el('#color_b');
-  colordisplay = el('#colordisplay');
 
   rInput.addEventListener('input', editColor);
   rInput.addEventListener('blur', function() {
@@ -156,6 +198,8 @@ window.onload = function go() {
     if (bInput.value == '')
       bInput.value = 0;
   });
+
+  el('#remove-color').addEventListener('blur', onPaletteColorBlur);
 
   initializeColorPalette();
   initializePixers();
@@ -370,23 +414,9 @@ function updatePixerCount() {
 
 function editColor() {
   if (editingPaletteIndex > -1) {
-    if (parseInt(rInput.value, 10) < 0 || isNaN(rInput.value)) {
-        rInput.value = 0;
-      } else if (parseInt(rInput.value, 10) > 255) {
-        rInput.value = 255;
-    }
-    if (parseInt(gInput.value, 10) < 0 || isNaN(gInput.value)) {
-      gInput.value = 0;
-      } else if (parseInt(gInput.value, 10) > 255) {
-      gInput.value = 255;
-    }
-    if (parseInt(bInput.value, 10) < 0 || isNaN(bInput.value)) {
-      bInput.value = 0;
-    } else if (parseInt(bInput.value, 10) > 255) {
-      bInput.value = 255;
-    }
-
-    console.log(editingPaletteIndex)
+    normalizeInputValue(rInput, 0, 255);
+    normalizeInputValue(gInput, 0, 255);
+    normalizeInputValue(bInput, 0, 255);
 
     colorPalette[editingPaletteIndex].g = parseInt(gInput.value, 10);
     colorPalette[editingPaletteIndex].b = parseInt(bInput.value, 10);
@@ -397,17 +427,28 @@ function editColor() {
   }
 }
 
-function removeColor() {
-  if (editingColor != '') {
-    const colorIndex = parseInt(editingColor.charAt(5), 10);
-    if (colorPalette.length == 1) {
+function removePaletteColor() {
+  if (editingPaletteIndex > -1) {
+    if (colorPalette.length === 1) {
       colorPalette = [];
-      updateControlPanel();
     } else {
-      colorPalette.splice(colorIndex, 1);
-      editingColor = '';
-      updateControlPanel();
+      colorPalette.splice(editingPaletteIndex, 1);
     }
+
+    const oldPalette = colorPalette;
+    colorPalette = [];
+    editingPaletteIndex = -1;
+    el('#color-palette').innerHTML = '';
+    for (let c = 0; c < oldPalette.length; c++) {
+      addPaletteColor(
+        oldPalette[c].r,
+        oldPalette[c].g,
+        oldPalette[c].b,
+        c);
+    }
+    hide(el('#color-editor'));
+    el('#add-color').focus();
+    updateControlPanel();
   }
 }
 
@@ -465,14 +506,14 @@ function setToWhite() {
   updateCanvas();
 }
 
+function updateCanvas() {
+  ctx.putImageData(canvasData, 0, 0);
+}
+
 function togglePlay() {
   playing = !playing;
 
   el('#pausetxt').innerHTML = !playing ? 'resume' : 'pause';
-}
-
-function updateCanvas() {
-  ctx.putImageData(canvasData, 0, 0);
 }
 
 function toggleInfoBox() {
