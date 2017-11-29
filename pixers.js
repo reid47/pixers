@@ -22,13 +22,20 @@ function rgb(r, g, b) {
   return 'rgb(' + r + ', ' + g + ', ' + b + ')';
 }
 
-function addPaletteColor(r, g, b) {
+function addPaletteColor(r, g, b, index) {
+  if (colorPalette.length >= 10) return;
+
   colorPalette.push({r: r, g: g, b: b});
 
   const paletteEl = el('#color-palette');
   const newBox = document.createElement('div');
   newBox.className = 'color-palette-item';
   newBox.style.backgroundColor = rgb(r, g, b);
+  newBox.dataset.r = r;
+  newBox.dataset.g = g;
+  newBox.dataset.b = b;
+  newBox.dataset.paletteIndex = index > 0 ? index : colorPalette.length - 1;
+
   paletteEl.appendChild(newBox);
 }
 
@@ -152,7 +159,7 @@ function initializeColorPalette() {
     const g = randomInt(0, 255);
     const b = randomInt(0, 255);
 
-    addPaletteColor(r, g, b);
+    addPaletteColor(r, g, b, c);
   }
 }
 
@@ -298,7 +305,11 @@ function randomizeAll() {
   numColors = randomInt(2, 9);
   colorPalette = [];
   for (let c = 0; c < numColors; c++) {
-    addPaletteColor(randomInt(0, 255), randomInt(0, 255), randomInt(0, 255));
+    addPaletteColor(
+      randomInt(0, 255),
+      randomInt(0, 255),
+      randomInt(0, 255),
+      c);
   }
   randomPlacement = Math.floor(Math.random() * 2);
   pixersInRow = randomInt(1, 100);
@@ -343,23 +354,13 @@ function editColor() {
     } else if (parseInt(bInput.value, 10) > 255) {
       bInput.value = 255;
     }
-    let colorIndex = parseInt(editingColor.charAt(5), 10);
+
     colorPalette[colorIndex].g = parseInt(gInput.value, 10);
     colorPalette[colorIndex].b = parseInt(bInput.value, 10);
     colorPalette[colorIndex].r = parseInt(rInput.value, 10);
-    let newbg = 'rgb(' + rInput.value + ',' + gInput.value + ',' + bInput.value + ')';
+    let newbg = rgb(rInput.value, gInput.value, bInput.value);
     el('#' + editingColor).style.background = newbg;
     colordisplay.style.backgroundColor = newbg;
-  }
-}
-
-function addColor() {
-  if (colorPalette.length < 10) {
-    const i = colorPalette.length;
-    colorPalette[i] = {r: 255, g: 255, b: 255};
-    el('#color' + i).className = 'colorpalette_box active';
-    el('#color' + i).style.backgroundColor = 'rgb(255, 255, 255)';
-    editingColor = 'color' + i;
   }
 }
 
@@ -414,6 +415,9 @@ function loadColorForEditing(evt) {
 
   if (target.classList.contains('color-palette-item')) {
     addClass(target, 'editing');
+    rInput.value = target.dataset.r;
+    gInput.value = target.dataset.g;
+    bInput.value = target.dataset.b;
   }
 
   // if (target.className.match(/empty/)) {
