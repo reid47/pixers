@@ -18,13 +18,12 @@ a, button {
   cursor: pointer;
 }
 
-.position-button {
+.action-button {
   padding: 0.25rem 0.5rem;
   border: 1px solid currentColor;
   background: transparent;
   text-decoration: none;
 }
-
 
 input[type="number"], input[type="text"] {
   background: transparent;
@@ -71,7 +70,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 #toggle-info {
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 
 #infobox {
@@ -83,6 +82,10 @@ input[type=number]::-webkit-outer-spin-button {
   margin-bottom: 1rem;
   display: flex;
   justify-content: space-between;
+}
+
+#add-color {
+  float: right;
 }
 
 #color-palette {
@@ -101,6 +104,10 @@ input[type=number]::-webkit-outer-spin-button {
   margin-right: 0.25rem;
 }
 
+.color-palette-item:focus {
+  outline: none;
+}
+
 .color-palette-item:first-child {
   margin-left: 0;
 }
@@ -110,5 +117,19 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .color-palette-item.editing {
-  border: 1px solid #bbb;
+  -moz-box-shadow: inset 0 0 0 1px #fff;
+  -webkit-box-shadow: inset 0 0 0 1px #fff;
+  box-shadow: inset 0 0 0 1px #fff;
+}
+
+#settings-buttons {
+  margin-top: 1rem;
+}
+
+#preset-links {
+  margin-top: 2rem;
+}
+
+#preset-links-info {
+  margin-bottom: 0.25rem;
 }

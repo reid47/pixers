@@ -35,61 +35,42 @@
     </div>
     <div>
       <label>starting positions:</label>
-      <button id="position_random" class="position-button" onclick="setPosition('random')">random</button><button id="position_even" class="position-button" onclick="setPosition('even')">space evenly</button>
+      <button id="position_random" class="action-button" onclick="setPosition('random')">random</button><button id="position_even" class="action-button" onclick="setPosition('even')">spaced evenly</button>
     </div>
   </div>
 
   <div id="color-settings">
-    <label>color palette:</label>
-    <button onclick="addPaletteColor(255, 255, 255, -1)">add new color</button>
+    <label>color palette (select a color to edit):</label>
+    <button id="add-color" onclick="addPaletteColor(255, 255, 255, -1)">add new color</button>
     <div id="color-palette"></div>
   </div>
 
   <div id="color-editor">
-    <label>edit selected color:</label>
+    <label>editing color:</label>
     <label for="color_r">r:</label>
     <input type="number" min="0" max="255" class="colorinput" id="color_r" value="">
     <label for="color_g">g:</label>
     <input type="number" min="0" max="255" class="colorinput" name="color_g" id="color_g" value="">
     <label for="color_b">b:</label>
-    <input type="number" min="0" max="255" class="colorinput" name="color_b" id="color_b" value=""><br>
+    <input type="number" min="0" max="255" class="colorinput" name="color_b" id="color_b" value="">
+    <button id="remove-color">remove selected color</button>
   </div>
 
-  <div>
-   <!--  <div class="colorpalette_wrap">
-      <div class="colorpalette_label">initial color palette:</div>
-      <div class="colorpalette_box" id="color0"></div>
-      <div class="colorpalette_box" id="color1"></div>
-      <div class="colorpalette_box" id="color2"></div>
-      <div class="colorpalette_box" id="color3"></div>
-      <div class="colorpalette_box" id="color4"></div>
-      <div class="colorpalette_box" id="color5"></div>
-      <div class="colorpalette_box" id="color6"></div>
-      <div class="colorpalette_box" id="color7"></div>
-      <div class="colorpalette_box" id="color8"></div>
-      <div class="colorpalette_box" id="color9"></div><br>
-      <a class="notredlink" href="#" onclick="addColor();return false;">add new color</a> | <a class="redlink" href="#" onclick="removeColor();return false;">remove selected color</a>
-    </div> -->
+  <div id="settings-buttons">
+    <button id="btn_randomize" class="action-button" onclick="randomizeAll()">randomize all settings</button>
 
-    <div class="colorpick_wrap">
-      <div class="colorpick">
-        <div id="colordisplay">select palette color to edit</div>
-      </div>
-    </div>
+    <button id="btn_restart" class="action-button" onclick="restartDrawing()">restart drawing with these settings</button>
+  </div>
 
-    <button id="btn_randomize" onclick="randomizeAll()">randomize everything</button>
-
-    <div id="preset_links">some presets for inspiration:<br>
-      <button onclick="choosePreset('simple')">simple</button> |
-      <button onclick="choosePreset('lines')">lines</button> |
-      <button onclick="choosePreset('clouds')">clouds</button> |
-      <button onclick="choosePreset('fire')">fire</button> |
-      <button onclick="choosePreset('trees')">trees</button> |
-      <button onclick="choosePreset('twotone')">two-tone</button> |
-      <button onclick="choosePreset('horizon')">horizon</button>
-    </div>
-
-    <button id="btn_restart" onclick="restartDrawing()">restart drawing with these settings</button>
+  <div id="preset-links">
+    <div id="preset-links-info">some presets for inspiration:</div>
+    <button onclick="choosePreset('simple')">simple</button> |
+    <button onclick="choosePreset('lines')">lines</button> |
+    <button onclick="choosePreset('clouds')">clouds</button> |
+    <button onclick="choosePreset('fire')">fire</button> |
+    <button onclick="choosePreset('trees')">trees</button> |
+    <button onclick="choosePreset('twotone')">two-tone</button> |
+    <button onclick="choosePreset('horizon')">horizon</button>
   </div>
 
   <button onclick="toggleInfoBox();" id="toggle-info">what is this?</button>

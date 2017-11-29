@@ -30,13 +30,45 @@ function addPaletteColor(r, g, b, index) {
   const paletteEl = el('#color-palette');
   const newBox = document.createElement('div');
   newBox.className = 'color-palette-item';
+  newBox.tabIndex = 0;
   newBox.style.backgroundColor = rgb(r, g, b);
   newBox.dataset.r = r;
   newBox.dataset.g = g;
   newBox.dataset.b = b;
   newBox.dataset.paletteIndex = index > 0 ? index : colorPalette.length - 1;
+  newBox.addEventListener('focus', onPaletteColorFocus);
+  newBox.addEventListener('blur', onPaletteColorBlur);
 
   paletteEl.appendChild(newBox);
+}
+
+function onPaletteColorFocus(evt) {
+  editingPaletteIndex = -1;
+
+  const boxes = els('.color-palette-item');
+  for (let b = 0; b < boxes.length; b++) {
+    removeClass(boxes[b], 'editing');
+  }
+
+  addClass(evt.target, 'editing');
+  rInput.value = evt.target.dataset.r;
+  gInput.value = evt.target.dataset.g;
+  bInput.value = evt.target.dataset.b;
+  editingPaletteIndex = evt.target.dataset.paletteIndex;
+}
+
+function onPaletteColorBlur(evt) {
+  if (evt.relatedTarget && evt.relatedTarget.classList.contains('colorinput')) return;
+
+  const boxes = els('.color-palette-item');
+  for (let b = 0; b < boxes.length; b++) {
+    removeClass(boxes[b], 'editing');
+  }
+
+  rInput.value = '';
+  gInput.value = '';
+  bInput.value = '';
+  editingPaletteIndex = -1;
 }
 
 let acrossCount;
@@ -57,7 +89,7 @@ let playing = true;
 let controlsShown = false;
 let infoBoxShown = false;
 let randomPlacement = true;
-let editingColor = '';
+let editingPaletteIndex = -1;
 let maxX = canvasWidth - 1;
 let minX = 0;
 let maxY = canvasHeight - 1;
@@ -73,8 +105,6 @@ let spaceBetweenPixersY = calculateSpacing(pixersInCol, canvasHeight);
 
 window.onload = function go() {
   setToWhite();
-
-  document.body.addEventListener('click', loadColorForEditing, false);
 
   acrossCount = el('#pixers_across');
   downCount = el('#pixers_down');
@@ -304,6 +334,8 @@ function choosePreset(preset) {
 function randomizeAll() {
   numColors = randomInt(2, 9);
   colorPalette = [];
+
+  el('#color-palette').innerHTML = '';
   for (let c = 0; c < numColors; c++) {
     addPaletteColor(
       randomInt(0, 255),
@@ -311,6 +343,7 @@ function randomizeAll() {
       randomInt(0, 255),
       c);
   }
+
   randomPlacement = Math.floor(Math.random() * 2);
   pixersInRow = randomInt(1, 100);
   pixersInCol = randomInt(1, 100);
@@ -318,19 +351,17 @@ function randomizeAll() {
 }
 
 function updatePixerCount() {
-  const acrossInp = el('#pixers_across');
-  const downInp = el('#pixers_down');
   const newPxAcross = parseInt(el('#pixers_across').value, 10);
   const newPxDown = parseInt(el('#pixers_down').value, 10);
 
   if (newPxAcross < 0) {
-    acrossInp.value = 1;
+    el('#pixers_across').value = 1;
   } else if (newPxAcross > 600) {
-    acrossInp.value = 600;
+    el('#pixers_across').value = 600;
   } else if (newPxDown < 0) {
-    downInp.value = 1;
+    el('#pixers_down').value = 1;
   } else if (newPxDown > 400) {
-    downInp.value = 400;
+    el('#pixers_down').value = 400;
   } else {
     pixersInRow = newPxAcross;
     pixersInCol = newPxDown;
@@ -338,7 +369,7 @@ function updatePixerCount() {
 }
 
 function editColor() {
-  if (editingColor != '') {
+  if (editingPaletteIndex > -1) {
     if (parseInt(rInput.value, 10) < 0 || isNaN(rInput.value)) {
         rInput.value = 0;
       } else if (parseInt(rInput.value, 10) > 255) {
@@ -355,12 +386,14 @@ function editColor() {
       bInput.value = 255;
     }
 
-    colorPalette[colorIndex].g = parseInt(gInput.value, 10);
-    colorPalette[colorIndex].b = parseInt(bInput.value, 10);
-    colorPalette[colorIndex].r = parseInt(rInput.value, 10);
+    console.log(editingPaletteIndex)
+
+    colorPalette[editingPaletteIndex].g = parseInt(gInput.value, 10);
+    colorPalette[editingPaletteIndex].b = parseInt(bInput.value, 10);
+    colorPalette[editingPaletteIndex].r = parseInt(rInput.value, 10);
+
     let newbg = rgb(rInput.value, gInput.value, bInput.value);
-    el('#' + editingColor).style.background = newbg;
-    colordisplay.style.backgroundColor = newbg;
+    el('[data-palette-index="' + editingPaletteIndex + '"]').style.background = newbg;
   }
 }
 
@@ -401,54 +434,6 @@ function updateControlPanel() {
     addClass(el('#position_even'), 'active');
     removeClass(el('#position_random'), 'active');
   }
-}
-
-function loadColorForEditing(evt) {
-  if (!evt || !evt.target) return;
-
-  const target = evt.target;
-
-  const boxes = els('.color-palette-item');
-  for (let b = 0; b < boxes.length; b++) {
-    removeClass(boxes[b], 'editing');
-  }
-
-  if (target.classList.contains('color-palette-item')) {
-    addClass(target, 'editing');
-    rInput.value = target.dataset.r;
-    gInput.value = target.dataset.g;
-    bInput.value = target.dataset.b;
-  }
-
-  // if (target.className.match(/empty/)) {
-  //   editingColor = '';
-  //   rInput.value = '';
-  //   gInput.value = '';
-  //   bInput.value = '';
-  //   el('#colordisplay').style.backgroundColor = '#cacaca';
-  //   el('#colordisplay').innerHTML = 'select palette color to edit';
-  // } else if (target.className.match(/colorinput/)) {
-  //   el('#' + editingColor).className = 'colorpalette_box active';
-  //   return;
-  // } else if (target.className.match(/colorpalette_box/)) {
-  //   target.className = target.className+' active';
-  //   let id = target.getAttribute('id');
-  //   editingColor = id;
-  //   let colorIndex = parseInt(editingColor.charAt(5), 10);
-  //   rInput.value = colorPalette[colorIndex].r;
-  //   gInput.value = colorPalette[colorIndex].g;
-  //   bInput.value = colorPalette[colorIndex].b;
-  //   let thisColor = 'rgb(' + colorPalette[colorIndex].r + ',' + colorPalette[colorIndex].g + ',' + colorPalette[colorIndex].b + ')';
-  //   el('#colordisplay').style.backgroundColor = thisColor;
-  //   el('#colordisplay').innerHTML = 'now editing ' + id;
-  // } else {
-  //   editingColor = '';
-  //   rInput.value = '';
-  //   gInput.value = '';
-  //   bInput.value = '';
-  //   el('#colordisplay').style.backgroundColor = '#cacaca';
-  //   el('#colordisplay').innerHTML = 'select palette color to edit';
-  // }
 }
 
 function clearCanvas() {
