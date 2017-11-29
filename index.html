@@ -8,7 +8,7 @@
   <meta name="keywords" content="generative art,color,algorithmic art,pixels,JavaScript">
   <meta name="author" content="Reid Mitchell">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+
   <link rel="stylesheet" type="text/css" href="pixers.css">
 </head>
 <body>
@@ -18,7 +18,7 @@
 
   <div id="canvas-info">
     <span id="controls">
-      <button onclick="togglePlay();"><span id="pausetxt">pause</span></button> | 
+      <button onclick="togglePlay();"><span id="pausetxt">pause</span></button> |
       <button id="clear" href="#" onclick="clearCanvas();">clear</button>
     </span>
     <span id="frame-info">frame count: <span id="framecounter"></span></span>
@@ -27,7 +27,7 @@
   <div id="toggle-controls">
     <a href="#" onclick="toggleControls();return false;"><div id="paneltoggle">open control panel +</div></a>
   </div>
-  
+
   <div id="panel">
     <div class="plusminus_wrap">
       <div class="plusminus">
@@ -78,12 +78,12 @@
     <div id="btn_randomize" onclick="randomizeAll();return false;"><span class="largetext">randomize everything</span></div>
 
     <div id="preset_links">some presets for inspiration:<br>
-      <a href="#" onclick="choosePreset('simple');return false;">simple</a> | 
-      <a href="#" onclick="choosePreset('lines');return false;">lines</a> | 
-      <a href="#" onclick="choosePreset('clouds');return false;">clouds</a> | 
-      <a href="#" onclick="choosePreset('fire');return false;">fire</a> | 
+      <a href="#" onclick="choosePreset('simple');return false;">simple</a> |
+      <a href="#" onclick="choosePreset('lines');return false;">lines</a> |
+      <a href="#" onclick="choosePreset('clouds');return false;">clouds</a> |
+      <a href="#" onclick="choosePreset('fire');return false;">fire</a> |
       <a href="#" onclick="choosePreset('trees');return false;">trees</a> |
-      <a href="#" onclick="choosePreset('twotone');return false;">two-tone</a> | 
+      <a href="#" onclick="choosePreset('twotone');return false;">two-tone</a> |
       <a href="#" onclick="choosePreset('horizon');return false;">horizon</a>
     </div>
     <div id="btn_restart" onclick="restartDrawing();return false;"><span class="largetext">restart drawing</span><br><span class="smalltext">with these settings</span></div>
@@ -93,25 +93,25 @@
 
   <div id="infobox">
     <p>
-      Pixers are tiny (1px by 1px) creatures. They move completely 
-      randomly. To start, each pixer is randomly assigned a color 
+      Pixers are tiny (1px by 1px) creatures. They move completely
+      randomly. To start, each pixer is randomly assigned a color
       from the chosen color palette.
     </p><p>
-      When a pixer passes over a blank pixel, the pixel takes on 
-      the pixer's color. When a pixer passes over a colored pixel, 
-      the color of the pixel and the color of the pixer are 
-      averaged. Both pixel and pixer take on this average color. 
-      The pixel remains, but the pixer keeps moving, blending 
+      When a pixer passes over a blank pixel, the pixel takes on
+      the pixer's color. When a pixer passes over a colored pixel,
+      the color of the pixel and the color of the pixer are
+      averaged. Both pixel and pixer take on this average color.
+      The pixel remains, but the pixer keeps moving, blending
       colors together.
     </p><p>
-      I encourage you to play with the settings and see what you 
-      can make the pixers do. Even when using the same settings, 
+      I encourage you to play with the settings and see what you
+      can make the pixers do. Even when using the same settings,
       no two pixer drawings are alike.
     </p><p>
       a project by <a href="http://reidmitchell.net" target="_blank">reid</a>
     </p>
   </div>
-  
+
   <script src="pixers.js"></script>
 </body>
 </html>

@@ -38,11 +38,7 @@ let spaceBetweenPixersY = calculateSpacing(pixersInCol, canvasHeight);
 window.onload = function go() {
   setToWhite();
 
-  if (document.body.addEventListener) {
-    document.body.addEventListener('click', loadColorForEditing, false);
-  } else {
-    document.body.attachEvent('onclick', loadColorForEditing);
-  }
+  document.body.addEventListener('click', loadColorForEditing, false);
 
   acrossCount = byId('pixers_across');
   downCount = byId('pixers_down');
@@ -77,17 +73,17 @@ window.onload = function go() {
   colordisplay = byId('colordisplay');
   rInput.addEventListener('input', editColor);
   rInput.addEventListener('blur', function() {
-    if (rInput.value=='')
+    if (rInput.value == '')
       rInput.value = 0;
   });
   gInput.addEventListener('input', editColor);
   gInput.addEventListener('blur', function() {
-    if (gInput.value=='')
+    if (gInput.value == '')
       gInput.value = 0;
   });
   bInput.addEventListener('input', editColor);
   bInput.addEventListener('blur', function() {
-    if (bInput.value=='')
+    if (bInput.value == '')
       bInput.value = 0;
   });
 
@@ -123,8 +119,8 @@ function loop() {
 
 function checkForCompletion() {
   for (let i = 0; i < canvasData.data.length; i += 4) {
-    if (canvasData.data[i + 0] === 255 
-      && canvasData.data[i + 1] === 255 
+    if (canvasData.data[i + 0] === 255
+      && canvasData.data[i + 1] === 255
       && canvasData.data[i + 2] === 255) {
       return false;
     }
@@ -140,7 +136,7 @@ function initializeColorPalette() {
     let thisR = Math.floor(Math.random() * 255);
     let thisG = Math.floor(Math.random() * 255);
     let thisB = Math.floor(Math.random() * 255);
-    colorPalette[c] = {'r': thisR, 'g': thisG, 'b': thisB};
+    colorPalette[c] = {r: thisR, g: thisG, b: thisB};
   }
 }
 
@@ -174,15 +170,15 @@ function initializePixersToControls() {
 }
 
 function initializePixers() {
-  let colorSwitch = 0;  
+  let colorSwitch = 0;
   let row = -1;
   pixers = [];
   randomPlacement = Math.floor(Math.random() * 2);
-  for (let i=0; i<numPixers; i++) {
+  for (let i = 0; i < numPixers; i++) {
     colorSwitch = Math.floor(Math.random() * numColors);
 
     let col = i % pixersInRow;
-    if (col==0) { row++; }
+    if (col == 0) { row++; }
 
     theR = colorPalette[colorSwitch].r;
     theG = colorPalette[colorSwitch].g;
@@ -208,76 +204,76 @@ function choosePreset(preset) {
       pixersInRow = 20;
       pixersInCol = 20;
       randomPlacement = false;
-      colorPalette[0] = {'r': 255, 'g': 0, 'b': 0};
-      colorPalette[1] = {'r': 0, 'g': 255, 'b': 0};
-      colorPalette[2] = {'r': 0, 'g': 0, 'b': 255};
-      colorPalette[3] = {'r': 255, 'g': 255, 'b': 0};
-      colorPalette[4] = {'r': 255, 'g': 0, 'b': 255};
-      colorPalette[5] = {'r': 0, 'g': 255, 'b': 255};
+      colorPalette[0] = {r: 255, g: 0, b: 0};
+      colorPalette[1] = {r: 0, g: 255, b: 0};
+      colorPalette[2] = {r: 0, g: 0, b: 255};
+      colorPalette[3] = {r: 255, g: 255, b: 0};
+      colorPalette[4] = {r: 255, g: 0, b: 255};
+      colorPalette[5] = {r: 0, g: 255, b: 255};
       break;
     case 'lines':
       numColors = 6;
       pixersInRow = 200;
       pixersInCol = 3;
       randomPlacement = false;
-      colorPalette[0] = {'r': 255, 'g': 0, 'b': 0};
-      colorPalette[1] = {'r': 0, 'g': 255, 'b': 0};
-      colorPalette[2] = {'r': 0, 'g': 0, 'b': 255};
-      colorPalette[3] = {'r': 255, 'g': 255, 'b': 0};
-      colorPalette[4] = {'r': 255, 'g': 0, 'b': 255};
-      colorPalette[5] = {'r': 0, 'g': 255, 'b': 255};
-      break;        
+      colorPalette[0] = {r: 255, g: 0, b: 0};
+      colorPalette[1] = {r: 0, g: 255, b: 0};
+      colorPalette[2] = {r: 0, g: 0, b: 255};
+      colorPalette[3] = {r: 255, g: 255, b: 0};
+      colorPalette[4] = {r: 255, g: 0, b: 255};
+      colorPalette[5] = {r: 0, g: 255, b: 255};
+      break;
     case 'clouds':
       numColors = 5;
       pixersInRow = 24;
       pixersInCol = 12;
       randomPlacement = true;
-      colorPalette[0] = {'r': 2, 'g': 10, 'b': 181};
-      colorPalette[1] = {'r': 250, 'g': 250, 'b': 255};
-      colorPalette[2] = {'r': 200, 'g': 200, 'b': 255};
-      colorPalette[3] = {'r': 5, 'g': 50, 'b': 255};
-      colorPalette[4] = {'r': 220, 'g': 230, 'b': 255};
+      colorPalette[0] = {r: 2, g: 10, b: 181};
+      colorPalette[1] = {r: 250, g: 250, b: 255};
+      colorPalette[2] = {r: 200, g: 200, b: 255};
+      colorPalette[3] = {r: 5, g: 50, b: 255};
+      colorPalette[4] = {r: 220, g: 230, b: 255};
       break;
     case 'trees':
       numColors = 5;
       pixersInRow = 4;
       pixersInCol = 120;
       randomPlacement = false;
-      colorPalette[0] = {'r': 0, 'g': 200, 'b': 0};
-      colorPalette[1] = {'r': 150, 'g': 100, 'b': 0};
-      colorPalette[2] = {'r': 70, 'g': 50, 'b': 0};
-      colorPalette[3] = {'r': 55, 'g': 115, 'b': 0};
-      colorPalette[4] = {'r': 100, 'g': 50, 'b': 0};
+      colorPalette[0] = {r: 0, g: 200, b: 0};
+      colorPalette[1] = {r: 150, g: 100, b: 0};
+      colorPalette[2] = {r: 70, g: 50, b: 0};
+      colorPalette[3] = {r: 55, g: 115, b: 0};
+      colorPalette[4] = {r: 100, g: 50, b: 0};
       break;
     case 'fire':
       numColors = 6;
       pixersInRow = 40;
       pixersInCol = 40;
       randomPlacement = true;
-      colorPalette[0] = {'r': 220, 'g': 0, 'b': 0};
-      colorPalette[1] = {'r': 240, 'g': 200, 'b': 0};
-      colorPalette[2] = {'r': 210, 'g': 100, 'b': 0};
-      colorPalette[3] = {'r': 80, 'g': 0, 'b': 0};
-      colorPalette[4] = {'r': 255, 'g': 255, 'b': 0};
-      colorPalette[5] = {'r': 150, 'g': 0, 'b': 0};
+      colorPalette[0] = {r: 220, g: 0, b: 0};
+      colorPalette[1] = {r: 240, g: 200, b: 0};
+      colorPalette[2] = {r: 210, g: 100, b: 0};
+      colorPalette[3] = {r: 80, g: 0, b: 0};
+      colorPalette[4] = {r: 255, g: 255, b: 0};
+      colorPalette[5] = {r: 150, g: 0, b: 0};
       break;
     case 'twotone':
       numColors = 2;
       pixersInRow = 30;
       pixersInCol = 30;
       randomPlacement = true;
-      colorPalette[0] = {'r': 55, 'g': 255, 'b': 0};
-      colorPalette[1] = {'r': 220, 'g': 0, 'b': 220};
+      colorPalette[0] = {r: 55, g: 255, b: 0};
+      colorPalette[1] = {r: 220, g: 0, b: 220};
       break;
     case 'horizon':
       numColors = 4;
       pixersInRow = 500;
       pixersInCol = 1;
       randomPlacement = false;
-      colorPalette[0] = {'r': 55, 'g': 25, 'b': 0};
-      colorPalette[1] = {'r': 180, 'g': 255, 'b': 100};
-      colorPalette[2] = {'r': 255, 'g': 20, 'b': 30};
-      colorPalette[3] = {'r': 0, 'g': 255, 'b': 255};       
+      colorPalette[0] = {r: 55, g: 25, b: 0};
+      colorPalette[1] = {r: 180, g: 255, b: 100};
+      colorPalette[2] = {r: 255, g: 20, b: 30};
+      colorPalette[3] = {r: 0, g: 255, b: 255};
   }
   updateControlPanel();
 }
@@ -286,10 +282,11 @@ function randomizeAll() {
   numColors = Math.floor(Math.random() * 9) + 2;
   colorPalette = [];
   for (let c = 0; c < numColors; c++) {
-    let thisR = Math.floor(Math.random() * 255);
-    let thisG = Math.floor(Math.random() * 255);
-    let thisB = Math.floor(Math.random() * 255);
-    colorPalette[c] = {'r': thisR, 'g': thisG, 'b': thisB};
+    colorPalette[c] = {
+      r: Math.floor(Math.random() * 255),
+      g: Math.floor(Math.random() * 255),
+      b: Math.floor(Math.random() * 255)
+    };
   }
   randomPlacement = Math.floor(Math.random() * 2);
   pixersInRow = Math.floor(Math.random() * 100) + 1;
@@ -298,10 +295,10 @@ function randomizeAll() {
 }
 
 function updatePixerCount() {
-  let acrossInp = byId('pixers_across');
-  let downInp = byId('pixers_down');
-  let newPxAcross = parseInt(byId('pixers_across').value, 10);
-  let newPxDown = parseInt(byId('pixers_down').value, 10);
+  const acrossInp = byId('pixers_across');
+  const downInp = byId('pixers_down');
+  const newPxAcross = parseInt(byId('pixers_across').value, 10);
+  const newPxDown = parseInt(byId('pixers_down').value, 10);
   if (newPxAcross < 0) { acrossInp.value = 1; }
   else if (newPxAcross > 600) { acrossInp.value = 600; }
   else if (newPxDown < 0) { downInp.value = 1; }
@@ -329,12 +326,12 @@ function changePixerCount(dir, i) {
         pixersInCol = sum;
         byId('pixers_down').value = sum;
       }
-      break;      
+      break;
   }
 }
 
 function editColor() {
-  if (editingColor!='') {
+  if (editingColor != '') {
     if (parseInt(rInput.value, 10) < 0 || isNaN(rInput.value)) {
         rInput.value = 0;
       } else if (parseInt(rInput.value, 10) > 255) {
@@ -362,8 +359,8 @@ function editColor() {
 
 function addColor() {
   if (colorPalette.length < 10) {
-    let i = colorPalette.length;
-    colorPalette[i] = {'r': 255, 'g': 255, 'b': 255};
+    const i = colorPalette.length;
+    colorPalette[i] = {r: 255, g: 255, b: 255};
     byId('color' + i).className = 'colorpalette_box active';
     byId('color' + i).style.backgroundColor = 'rgb(255, 255, 255)';
     editingColor = 'color' + i;
@@ -372,7 +369,7 @@ function addColor() {
 
 function removeColor() {
   if (editingColor != '') {
-    let colorIndex = parseInt(editingColor.charAt(5), 10);
+    const colorIndex = parseInt(editingColor.charAt(5), 10);
     if (colorPalette.length == 1) {
       colorPalette = [];
       updateControlPanel();
@@ -408,13 +405,13 @@ function updateControlPanel() {
     byId('option2').className = 'option';
   } else {
     byId('option2').className = 'option picked';
-    byId('option1').className = 'option';     
+    byId('option1').className = 'option';
   }
 
   for (let c = 0; c < 10; c++) {
     if (colorPalette[c] === undefined) {
       byId('color' + c).removeAttribute('style');
-      byId('color' + c).className = 'colorpalette_box empty';       
+      byId('color' + c).className = 'colorpalette_box empty';
     } else {
       byId('color' + c).className = 'colorpalette_box';
       let currentColor = 'rgb(' + colorPalette[c].r + ',' + colorPalette[c].g + ',' + colorPalette[c].b + ')';
@@ -428,7 +425,7 @@ function loadColorForEditing(e) {
   e = e || window.event;
   let target = e.target || e.srcElement;
   let boxes = document.getElementsByClassName('colorpalette_box');
-  
+
   for (let b = 0; b < boxes.length; b++) {
     if (boxes[b].className.match(/active/)) {
       boxes[b].className = 'colorpalette_box';
@@ -440,8 +437,8 @@ function loadColorForEditing(e) {
     rInput.value = '';
     gInput.value = '';
     bInput.value = '';
-    byId('colordisplay').style.backgroundColor = '#cacaca';     
-    byId('colordisplay').innerHTML = 'select palette color to edit';  
+    byId('colordisplay').style.backgroundColor = '#cacaca';
+    byId('colordisplay').innerHTML = 'select palette color to edit';
   } else if (target.className.match(/colorinput/)) {
     byId(editingColor).className = 'colorpalette_box active';
     return;
@@ -461,8 +458,8 @@ function loadColorForEditing(e) {
     rInput.value = '';
     gInput.value = '';
     bInput.value = '';
-    byId('colordisplay').style.backgroundColor = '#cacaca';     
-    byId('colordisplay').innerHTML = 'select palette color to edit';      
+    byId('colordisplay').style.backgroundColor = '#cacaca';
+    byId('colordisplay').innerHTML = 'select palette color to edit';
   }
 }
 
@@ -483,8 +480,8 @@ function restartDrawing() {
   playing = true;
 }
 
-function calculateSpacing(num, total) { 
-  return Math.round(total / num); 
+function calculateSpacing(num, total) {
+  return Math.round(total / num);
 }
 
 function setToWhite() {
@@ -499,6 +496,24 @@ function togglePlay() {
   playing = !playing;
 
   byId('pausetxt').innerHTML = !playing ? 'resume' : 'pause';
+}
+
+function updateCanvas() {
+  ctx.putImageData(canvasData, 0, 0);
+}
+
+function toggleControls() {
+  controlsShown = !controlsShown;
+
+  byId('paneltoggle').innerHTML = controlsShown ? '- hide control panel' : '+ show control panel';
+  byId('panel').style.display = controlsShown ? 'block' : 'none';
+}
+
+function toggleInfoBox() {
+  infoBoxShown = !infoBoxShown;
+
+  byId('toggle-info').innerHTML = infoBoxShown ? 'okay, got it' : 'what is this?';
+  byId('infobox').style.display = infoBoxShown ? 'block' : 'none';
 }
 
 function Pixer(x, y, r, g, b, a) {
@@ -524,10 +539,10 @@ Pixer.prototype.takeStep = function() {
     case 7: this.y--; break;
   }
 
-  if (this.x < minX) { 
-    this.x = maxX; 
-  } else if (this.x > maxX) { 
-    this.x = minX; 
+  if (this.x < minX) {
+    this.x = maxX;
+  } else if (this.x > maxX) {
+    this.x = minX;
   }
 
   if (this.y < minY) { this.y = maxY; }
@@ -556,34 +571,4 @@ Pixer.prototype.colorPixel = function(x, y, r, g, b, a) {
   this.r = Math.round((canvasData.data[index + 0] + r) / 2);
   this.g = Math.round((canvasData.data[index + 1] + g) / 2);
   this.b = Math.round((canvasData.data[index + 2] + b) / 2);
-}
-
-function updateCanvas() {
-  ctx.putImageData(canvasData, 0, 0); 
-}
-
-function toggleControls() {
-  if (!controlsShown) {
-    byId('paneltoggle').innerHTML = 'hide control panel -';
-    byId('panel').style.display = 'block';
-    byId('paneltoggle').style.bottom = '180';
-  } else {
-    byId('paneltoggle').innerHTML = 'show control panel +';
-    byId('panel').style.display = 'none';
-    byId('paneltoggle').style.bottom = '0';
-  }
-
-  controlsShown = !controlsShown;
-}
-
-function toggleInfoBox() {
-  if (!infoBoxShown) {
-    byId('toggle-info').innerHTML = 'okay, got it';
-    byId('infobox').style.display = 'block';
-  } else {
-    byId('toggle-info').innerHTML = 'what is this?';
-    byId('infobox').style.display = 'none';
-  }
-
-  infoBoxShown = !infoBoxShown;
 }
