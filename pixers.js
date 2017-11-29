@@ -1,5 +1,21 @@
-function byId(id) {
-  return document.getElementById(id);
+function el(selector) {
+  return document.querySelector(selector);
+}
+
+function els(selector) {
+  return document.querySelectorAll(selector);
+}
+
+function addClass(element, className) {
+  element.classList.add(className);
+}
+
+function removeClass(element, className) {
+  element.classList.remove(className);
+}
+
+function randomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 let acrossCount;
@@ -8,8 +24,8 @@ let rInput;
 let gInput;
 let bInput;
 let colordisplay;
-let framecounter = byId('framecounter');
-let canvas = byId('canvas');
+let framecounter = el('#framecounter');
+let canvas = el('#canvas');
 let canvasWidth = canvas.width;
 let canvasHeight = canvas.height;
 let ctx = canvas.getContext('2d');
@@ -22,12 +38,12 @@ let controlsShown = false;
 let infoBoxShown = false;
 let randomPlacement = true;
 let editingColor = '';
-let maxX = canvasWidth-1;
+let maxX = canvasWidth - 1;
 let minX = 0;
-let maxY = canvasHeight-1;
+let maxY = canvasHeight - 1;
 let minY = 0;
-let pixersInRow = Math.floor(Math.random()*50)+1;
-let pixersInCol = Math.floor(Math.random()*50)+1;
+let pixersInRow = randomInt(1, 50);
+let pixersInCol = randomInt(1, 50);
 let colorPalette = [];
 let numColors;
 let pixers = [];
@@ -40,37 +56,39 @@ window.onload = function go() {
 
   document.body.addEventListener('click', loadColorForEditing, false);
 
-  acrossCount = byId('pixers_across');
-  downCount = byId('pixers_down');
+  acrossCount = el('#pixers_across');
+  downCount = el('#pixers_down');
   acrossCount.addEventListener('input', updatePixerCount);
   downCount.addEventListener('input', updatePixerCount);
   acrossCount.addEventListener('blur', function() {
-    if (isNaN(parseInt(byId('pixers_across').value, 10))) {
-      byId('pixers_across').value = 1;
-    } else if (parseInt(byId('pixers_across').value, 10)<0) {
-      byId('pixers_across').value = 1;
-    } else if (parseInt(byId('pixers_across').value, 10)>600) {
-      byId('pixers_across').value = 600;
-    }
-    pixersInRow = newPxAcross;
-    pixersInCol = newPxDown;
-  });
-  downCount.addEventListener('blur', function() {
-    if (isNaN(parseInt(byId('pixers_down').value, 10))) {
-      byId('pixers_down').value = 1;
-    } else if (parseInt(byId('pixers_down').value, 10) < 0) {
-      byId('pixers_down').value = 1;
-    } else if (parseInt(byId('pixers_down').value, 10) > 400) {
-      byId('pixers_down').value = 400;
+    if (isNaN(parseInt(el('#pixers_across').value, 10))) {
+      el('#pixers_across').value = 1;
+    } else if (parseInt(el('#pixers_across').value, 10) < 0) {
+      el('#pixers_across').value = 1;
+    } else if (parseInt(el('#pixers_across').value, 10) > 600) {
+      el('#pixers_across').value = 600;
     }
     pixersInRow = newPxAcross;
     pixersInCol = newPxDown;
   });
 
-  rInput = byId('color_r');
-  gInput = byId('color_g');
-  bInput = byId('color_b');
-  colordisplay = byId('colordisplay');
+  downCount.addEventListener('blur', function() {
+    if (isNaN(parseInt(el('#pixers_down').value, 10))) {
+      el('#pixers_down').value = 1;
+    } else if (parseInt(el('#pixers_down').value, 10) < 0) {
+      el('#pixers_down').value = 1;
+    } else if (parseInt(el('#pixers_down').value, 10) > 400) {
+      el('#pixers_down').value = 400;
+    }
+    pixersInRow = newPxAcross;
+    pixersInCol = newPxDown;
+  });
+
+  rInput = el('#color_r');
+  gInput = el('#color_g');
+  bInput = el('#color_b');
+  colordisplay = el('#colordisplay');
+
   rInput.addEventListener('input', editColor);
   rInput.addEventListener('blur', function() {
     if (rInput.value == '')
@@ -130,13 +148,14 @@ function checkForCompletion() {
 }
 
 function initializeColorPalette() {
-  numColors = Math.floor(Math.random() * 9) + 2;
+  numColors = randomInt(2, 9);
   colorPalette = [];
   for (let c = 0; c < numColors; c++) {
-    let thisR = Math.floor(Math.random() * 255);
-    let thisG = Math.floor(Math.random() * 255);
-    let thisB = Math.floor(Math.random() * 255);
-    colorPalette[c] = {r: thisR, g: thisG, b: thisB};
+    colorPalette[c] = {
+      r: randomInt(0, 255),
+      g: randomInt(0, 255),
+      b: randomInt(0, 255)
+    };
   }
 }
 
@@ -158,8 +177,8 @@ function initializePixersToControls() {
     theB = colorPalette[colorSwitch].b;
 
     if (randomPlacement) {
-      theX = Math.floor(Math.random() * canvasWidth);
-      theY = Math.floor(Math.random() * canvasHeight);
+      theX = randomInt(0, canvasWidth);
+      theY = randomInt(0, canvasHeight);
     } else {
       theX = spaceBetweenPixersX * col + Math.round((spaceBetweenPixersX / 2));
       theY = spaceBetweenPixersY * row + Math.round((spaceBetweenPixersY / 2));
@@ -173,7 +192,7 @@ function initializePixers() {
   let colorSwitch = 0;
   let row = -1;
   pixers = [];
-  randomPlacement = Math.floor(Math.random() * 2);
+  randomPlacement = randomInt(0, 1);
   for (let i = 0; i < numPixers; i++) {
     colorSwitch = Math.floor(Math.random() * numColors);
 
@@ -185,8 +204,8 @@ function initializePixers() {
     theB = colorPalette[colorSwitch].b;
 
     if (randomPlacement) {
-      theX = Math.floor(Math.random() * canvasWidth);
-      theY = Math.floor(Math.random() * canvasHeight);
+      theX = randomInt(0, canvasWidth);
+      theY = randomInt(0, canvasHeight);
     } else {
       theX = spaceBetweenPixersX * col + Math.round((spaceBetweenPixersX/2));
       theY = spaceBetweenPixersY * row + Math.round((spaceBetweenPixersY/2));
@@ -283,22 +302,22 @@ function randomizeAll() {
   colorPalette = [];
   for (let c = 0; c < numColors; c++) {
     colorPalette[c] = {
-      r: Math.floor(Math.random() * 255),
-      g: Math.floor(Math.random() * 255),
-      b: Math.floor(Math.random() * 255)
+      r: randomInt(0, 255),
+      g: randomInt(0, 255),
+      b: randomInt(0, 255)
     };
   }
   randomPlacement = Math.floor(Math.random() * 2);
-  pixersInRow = Math.floor(Math.random() * 100) + 1;
-  pixersInCol = Math.floor(Math.random() * 100) + 1;
+  pixersInRow = randomInt(1, 100);
+  pixersInCol = randomInt(1, 100);
   updateControlPanel();
 }
 
 function updatePixerCount() {
-  const acrossInp = byId('pixers_across');
-  const downInp = byId('pixers_down');
-  const newPxAcross = parseInt(byId('pixers_across').value, 10);
-  const newPxDown = parseInt(byId('pixers_down').value, 10);
+  const acrossInp = el('#pixers_across');
+  const downInp = el('#pixers_down');
+  const newPxAcross = parseInt(el('#pixers_across').value, 10);
+  const newPxDown = parseInt(el('#pixers_down').value, 10);
   if (newPxAcross < 0) { acrossInp.value = 1; }
   else if (newPxAcross > 600) { acrossInp.value = 600; }
   else if (newPxDown < 0) { downInp.value = 1; }
@@ -306,27 +325,6 @@ function updatePixerCount() {
   else {
     pixersInRow = newPxAcross;
     pixersInCol = newPxDown;
-  }
-}
-
-function changePixerCount(dir, i) {
-  let sum = 0;
-
-  switch(dir) {
-    case 'across':
-      sum = parseInt(byId('pixers_across').value, 10) + i;
-      if (sum > 0 && sum < 601) {
-        pixersInRow = sum;
-        byId('pixers_across').value = sum;
-      }
-      break;
-    case 'down':
-      sum = parseInt(byId('pixers_down').value, 10) + i;
-      if (sum > 0 && sum < 401) {
-        pixersInCol = sum;
-        byId('pixers_down').value = sum;
-      }
-      break;
   }
 }
 
@@ -352,7 +350,7 @@ function editColor() {
     colorPalette[colorIndex].b = parseInt(bInput.value, 10);
     colorPalette[colorIndex].r = parseInt(rInput.value, 10);
     let newbg = 'rgb(' + rInput.value + ',' + gInput.value + ',' + bInput.value + ')';
-    byId(editingColor).style.background = newbg;
+    el('#' + editingColor).style.background = newbg;
     colordisplay.style.backgroundColor = newbg;
   }
 }
@@ -361,8 +359,8 @@ function addColor() {
   if (colorPalette.length < 10) {
     const i = colorPalette.length;
     colorPalette[i] = {r: 255, g: 255, b: 255};
-    byId('color' + i).className = 'colorpalette_box active';
-    byId('color' + i).style.backgroundColor = 'rgb(255, 255, 255)';
+    el('#color' + i).className = 'colorpalette_box active';
+    el('#color' + i).style.backgroundColor = 'rgb(255, 255, 255)';
     editingColor = 'color' + i;
   }
 }
@@ -381,41 +379,38 @@ function removeColor() {
   }
 }
 
-function pickOption(i) {
-  switch(i) {
-    case 1:
-      randomPlacement = true;
-      byId('option1').className = 'option picked';
-      byId('option2').className = 'option';
-      break;
-    case 2:
-      randomPlacement = false;
-      byId('option2').className = 'option picked';
-      byId('option1').className = 'option';
-      break;
+function setPosition(position) {
+  if (position === 'random') {
+    randomPlacement = true;
+    addClass(el('#position_random'), 'active');
+    removeClass(el('#position_even'), 'active');
+  } else if (position === 'even') {
+    randomPlacement = false;
+    addClass(el('#position_even'), 'active');
+    removeClass(el('#position_random'), 'active');
   }
 }
 
 function updateControlPanel() {
-  byId('pixers_across').value = pixersInRow;
-  byId('pixers_down').value = pixersInCol;
+  el('#pixers_across').value = pixersInRow;
+  el('#pixers_down').value = pixersInCol;
 
   if (randomPlacement) {
-    byId('option1').className = 'option picked';
-    byId('option2').className = 'option';
+    addClass(el('#position_random'), 'active');
+    removeClass(el('#position_even'), 'active');
   } else {
-    byId('option2').className = 'option picked';
-    byId('option1').className = 'option';
+    addClass(el('#position_even'), 'active');
+    removeClass(el('#position_random'), 'active');
   }
 
   for (let c = 0; c < 10; c++) {
     if (colorPalette[c] === undefined) {
-      byId('color' + c).removeAttribute('style');
-      byId('color' + c).className = 'colorpalette_box empty';
+      el('#color' + c).removeAttribute('style');
+      el('#color' + c).className = 'colorpalette_box empty';
     } else {
-      byId('color' + c).className = 'colorpalette_box';
+      el('#color' + c).className = 'colorpalette_box';
       let currentColor = 'rgb(' + colorPalette[c].r + ',' + colorPalette[c].g + ',' + colorPalette[c].b + ')';
-      byId('color' + c).style.background = currentColor;
+      el('#color' + c).style.background = currentColor;
     }
   }
 
@@ -437,10 +432,10 @@ function loadColorForEditing(e) {
     rInput.value = '';
     gInput.value = '';
     bInput.value = '';
-    byId('colordisplay').style.backgroundColor = '#cacaca';
-    byId('colordisplay').innerHTML = 'select palette color to edit';
+    el('#colordisplay').style.backgroundColor = '#cacaca';
+    el('#colordisplay').innerHTML = 'select palette color to edit';
   } else if (target.className.match(/colorinput/)) {
-    byId(editingColor).className = 'colorpalette_box active';
+    el('#' + editingColor).className = 'colorpalette_box active';
     return;
   } else if (target.className.match(/colorpalette_box/)) {
     target.className = target.className+' active';
@@ -450,22 +445,22 @@ function loadColorForEditing(e) {
     rInput.value = colorPalette[colorIndex].r;
     gInput.value = colorPalette[colorIndex].g;
     bInput.value = colorPalette[colorIndex].b;
-    let thisColor = 'rgb('+colorPalette[colorIndex].r+','+colorPalette[colorIndex].g+','+colorPalette[colorIndex].b+')';
-    byId('colordisplay').style.backgroundColor = thisColor;
-    byId('colordisplay').innerHTML = 'now editing '+id;
+    let thisColor = 'rgb(' + colorPalette[colorIndex].r + ',' + colorPalette[colorIndex].g + ',' + colorPalette[colorIndex].b + ')';
+    el('#colordisplay').style.backgroundColor = thisColor;
+    el('#colordisplay').innerHTML = 'now editing ' + id;
   } else {
     editingColor = '';
     rInput.value = '';
     gInput.value = '';
     bInput.value = '';
-    byId('colordisplay').style.backgroundColor = '#cacaca';
-    byId('colordisplay').innerHTML = 'select palette color to edit';
+    el('#colordisplay').style.backgroundColor = '#cacaca';
+    el('#colordisplay').innerHTML = 'select palette color to edit';
   }
 }
 
 function clearCanvas() {
   playing = false;
-  byId('pausetxt').innerHTML = 'start';
+  el('#pausetxt').innerHTML = 'start';
   frameCount = 0;
   framecounter.innerHTML = frameCount;
   setToWhite();
@@ -495,25 +490,18 @@ function setToWhite() {
 function togglePlay() {
   playing = !playing;
 
-  byId('pausetxt').innerHTML = !playing ? 'resume' : 'pause';
+  el('#pausetxt').innerHTML = !playing ? 'resume' : 'pause';
 }
 
 function updateCanvas() {
   ctx.putImageData(canvasData, 0, 0);
 }
 
-function toggleControls() {
-  controlsShown = !controlsShown;
-
-  byId('paneltoggle').innerHTML = controlsShown ? '- hide control panel' : '+ show control panel';
-  byId('panel').style.display = controlsShown ? 'block' : 'none';
-}
-
 function toggleInfoBox() {
   infoBoxShown = !infoBoxShown;
 
-  byId('toggle-info').innerHTML = infoBoxShown ? 'okay, got it' : 'what is this?';
-  byId('infobox').style.display = infoBoxShown ? 'block' : 'none';
+  el('#toggle-info').innerHTML = infoBoxShown ? 'okay, got it' : 'what is this?';
+  el('#infobox').style.display = infoBoxShown ? 'block' : 'none';
 }
 
 function Pixer(x, y, r, g, b, a) {

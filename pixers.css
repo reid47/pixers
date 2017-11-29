@@ -17,11 +17,40 @@ a, button {
   cursor: pointer;
 }
 
+.position-button {
+  padding: 0.25rem;
+  border: 1px solid currentColor;
+  background: transparent;
+  text-decoration: none;
+}
+
+
+input[type="number"], input[type="text"] {
+  background: transparent;
+  color: currentColor;
+  border: 1px solid currentColor;
+  text-align: center;
+  padding: 0.25rem;
+  -moz-appearance:textfield;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.active {
+  color: #333;
+  background: #eee;
+  border: 1px solid #eee;
+}
+
 #title {
   font-weight: bold;
   margin-bottom: 1rem;
-  font-size: 1rem;
-  line-height: 1rem;
+  font-size: 1.25rem;
+  line-height: 1.25rem;
 }
 
 #canvas-info {
@@ -39,14 +68,27 @@ a, button {
   float: right;
 }
 
-#panel {
-  display: none;
+.colorpalette_box {
+  width: 1rem;
+  height: 1rem;
+  display: inline-block;
 }
 
-#toggle-controls, #toggle-info {
+#toggle-info {
   margin-top: 1rem;
 }
 
 #infobox {
   display: none;
+}
+
+#pixer-settings {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+#color-settings {
+
 }

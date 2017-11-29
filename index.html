@@ -18,36 +18,43 @@
 
   <div id="canvas-info">
     <span id="controls">
-      <button onclick="togglePlay();"><span id="pausetxt">pause</span></button> |
-      <button id="clear" href="#" onclick="clearCanvas();">clear</button>
+      <button onclick="togglePlay()"><span id="pausetxt">pause</span></button> |
+      <button id="clear" href="#" onclick="clearCanvas()">clear</button>
     </span>
     <span id="frame-info">frame count: <span id="framecounter"></span></span>
   </div>
 
-  <div id="toggle-controls">
-    <a href="#" onclick="toggleControls();return false;"><div id="paneltoggle">open control panel +</div></a>
+  <div id="pixer-settings">
+    <div>
+      <label for="pixers_across">pixers across:</label>
+      <input type="number" id="pixers_across" value="" min="1" max="600">
+    </div>
+    <div>
+      <label for="pixers_down">pixers down:</label>
+      <input type="number" id="pixers_down" value="" min="1" max="400">
+    </div>
+    <div>
+      <label>starting positions:</label>
+      <button id="position_random" class="position-button" onclick="setPosition('random')">random</button><button id="position_even" class="position-button" onclick="setPosition('even')">space evenly</button>
+    </div>
   </div>
 
-  <div id="panel">
-    <div class="plusminus_wrap">
-      <div class="plusminus">
-        <div onclick="changePixerCount('across', -1)" class="plusminus_btn">-</div>
-        <input type="number" name="pixers_across" id="pixers_across" value="" min="1" max="600">
-        <div onclick="changePixerCount('across', 1)" class="plusminus_btn">+</div>
-        <div class="plusminus_label">pixers across</div>
-      </div>
+  <div id="color-settings">
+    <div><label>color palette:</label></div>
+    <div class="colorpalette_box" id="color0"></div>
+    <div class="colorpalette_box" id="color1"></div>
+    <div class="colorpalette_box" id="color2"></div>
+    <div class="colorpalette_box" id="color3"></div>
+    <div class="colorpalette_box" id="color4"></div>
+    <div class="colorpalette_box" id="color5"></div>
+    <div class="colorpalette_box" id="color6"></div>
+    <div class="colorpalette_box" id="color7"></div>
+    <div class="colorpalette_box" id="color8"></div>
+    <div class="colorpalette_box" id="color9"></div>
+  </div>
 
-      <div class="plusminus">
-        <div onclick="changePixerCount('down', -1)" class="plusminus_btn">-</div>
-        <input type="number" name="pixers_down" id="pixers_down" value="" min="1" max="400">
-        <div onclick="changePixerCount('down', 1)" class="plusminus_btn">+</div>
-        <div class="plusminus_label">pixers down</div>
-      </div>
-
-      <div class="positioning"><div class="position_label">starting positions:</div><a href="#" onclick="pickOption(1);return false;"><span class="option picked" id="option1">random</span></a><a href="#" onclick="pickOption(2);return false;"><span class="option" id="option2">space evenly</span></a></div>
-    </div>
-
-    <div class="colorpalette_wrap">
+  <div>
+   <!--  <div class="colorpalette_wrap">
       <div class="colorpalette_label">initial color palette:</div>
       <div class="colorpalette_box" id="color0"></div>
       <div class="colorpalette_box" id="color1"></div>
@@ -60,7 +67,7 @@
       <div class="colorpalette_box" id="color8"></div>
       <div class="colorpalette_box" id="color9"></div><br>
       <a class="notredlink" href="#" onclick="addColor();return false;">add new color</a> | <a class="redlink" href="#" onclick="removeColor();return false;">remove selected color</a>
-    </div>
+    </div> -->
 
     <div class="colorpick_wrap">
       <div class="colorpick">
@@ -75,18 +82,19 @@
       </div>
     </div>
 
-    <div id="btn_randomize" onclick="randomizeAll();return false;"><span class="largetext">randomize everything</span></div>
+    <button id="btn_randomize" onclick="randomizeAll()">randomize everything</button>
 
     <div id="preset_links">some presets for inspiration:<br>
-      <a href="#" onclick="choosePreset('simple');return false;">simple</a> |
-      <a href="#" onclick="choosePreset('lines');return false;">lines</a> |
-      <a href="#" onclick="choosePreset('clouds');return false;">clouds</a> |
-      <a href="#" onclick="choosePreset('fire');return false;">fire</a> |
-      <a href="#" onclick="choosePreset('trees');return false;">trees</a> |
-      <a href="#" onclick="choosePreset('twotone');return false;">two-tone</a> |
-      <a href="#" onclick="choosePreset('horizon');return false;">horizon</a>
+      <button onclick="choosePreset('simple')">simple</button> |
+      <button onclick="choosePreset('lines')">lines</button> |
+      <button onclick="choosePreset('clouds')">clouds</button> |
+      <button onclick="choosePreset('fire')">fire</button> |
+      <button onclick="choosePreset('trees')">trees</button> |
+      <button onclick="choosePreset('twotone')">two-tone</button> |
+      <button onclick="choosePreset('horizon')">horizon</button>
     </div>
-    <div id="btn_restart" onclick="restartDrawing();return false;"><span class="largetext">restart drawing</span><br><span class="smalltext">with these settings</span></div>
+
+    <button id="btn_restart" onclick="restartDrawing()">restart drawing with these settings</button>
   </div>
 
   <button onclick="toggleInfoBox();" id="toggle-info">what is this?</button>
