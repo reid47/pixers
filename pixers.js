@@ -274,7 +274,11 @@ function choosePreset(preset) {
   pixersInRow = presets[preset].pixersInRow;
   pixersInCol = presets[preset].pixersInCol;
   randomPlacement = presets[preset].randomPlacement;
-  colorPalette = presets[preset].colorPalette;
+  colorPalette = presets[preset].colorPalette.map(p => ({
+    r: p.r,
+    g: p.g,
+    b: p.b
+  }));
 
   updateControlPanel();
   el('#color-palette').innerHTML = '';
