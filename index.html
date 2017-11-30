@@ -19,7 +19,7 @@
   <div id="canvas-info">
     <span id="controls">
       <button onclick="togglePlay()"><span id="pausetxt">pause</span></button> |
-      <button id="clear" href="#" onclick="clearCanvas()">clear</button>
+      <button id="clear" onclick="clearCanvas()">clear</button>
     </span>
     <span id="frame-info">frame count: <span id="framecounter"></span></span>
   </div>
@@ -53,9 +53,9 @@
       <label for="color_r">r:</label>
       <input type="number" min="0" max="255" class="colorinput" id="color_r" value="">
       <label for="color_g">g:</label>
-      <input type="number" min="0" max="255" class="colorinput" name="color_g" id="color_g" value="">
+      <input type="number" min="0" max="255" class="colorinput" id="color_g" value="">
       <label for="color_b">b:</label>
-      <input type="number" min="0" max="255" class="colorinput" name="color_b" id="color_b" value="">
+      <input type="number" min="0" max="255" class="colorinput" id="color_b" value="">
     </div>
     <div>
       <button id="remove-color" onclick="removePaletteColor()">remove this color</button>
@@ -64,7 +64,6 @@
 
   <div id="settings-buttons">
     <button id="btn_randomize" class="action-button" onclick="randomizeAll()">randomize all settings</button>
-
     <button id="btn_restart" class="action-button" onclick="restartDrawing()">restart drawing with these settings</button>
   </div>
 
