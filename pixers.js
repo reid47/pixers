@@ -271,77 +271,10 @@ function initializePixers() {
 }
 
 function choosePreset(preset) {
-  colorPalette = [];
-  switch (preset) {
-    case 'simple':
-      pixersInRow = 20;
-      pixersInCol = 20;
-      randomPlacement = false;
-      colorPalette[0] = {r: 255, g: 0, b: 0};
-      colorPalette[1] = {r: 0, g: 255, b: 0};
-      colorPalette[2] = {r: 0, g: 0, b: 255};
-      colorPalette[3] = {r: 255, g: 255, b: 0};
-      colorPalette[4] = {r: 255, g: 0, b: 255};
-      colorPalette[5] = {r: 0, g: 255, b: 255};
-      break;
-    case 'lines':
-      pixersInRow = 200;
-      pixersInCol = 3;
-      randomPlacement = false;
-      colorPalette[0] = {r: 255, g: 0, b: 0};
-      colorPalette[1] = {r: 0, g: 255, b: 0};
-      colorPalette[2] = {r: 0, g: 0, b: 255};
-      colorPalette[3] = {r: 255, g: 255, b: 0};
-      colorPalette[4] = {r: 255, g: 0, b: 255};
-      colorPalette[5] = {r: 0, g: 255, b: 255};
-      break;
-    case 'clouds':
-      pixersInRow = 24;
-      pixersInCol = 12;
-      randomPlacement = true;
-      colorPalette[0] = {r: 2, g: 10, b: 181};
-      colorPalette[1] = {r: 250, g: 250, b: 255};
-      colorPalette[2] = {r: 200, g: 200, b: 255};
-      colorPalette[3] = {r: 5, g: 50, b: 255};
-      colorPalette[4] = {r: 220, g: 230, b: 255};
-      break;
-    case 'trees':
-      pixersInRow = 4;
-      pixersInCol = 120;
-      randomPlacement = false;
-      colorPalette[0] = {r: 0, g: 200, b: 0};
-      colorPalette[1] = {r: 150, g: 100, b: 0};
-      colorPalette[2] = {r: 70, g: 50, b: 0};
-      colorPalette[3] = {r: 55, g: 115, b: 0};
-      colorPalette[4] = {r: 100, g: 50, b: 0};
-      break;
-    case 'fire':
-      pixersInRow = 40;
-      pixersInCol = 40;
-      randomPlacement = true;
-      colorPalette[0] = {r: 220, g: 0, b: 0};
-      colorPalette[1] = {r: 240, g: 200, b: 0};
-      colorPalette[2] = {r: 210, g: 100, b: 0};
-      colorPalette[3] = {r: 80, g: 0, b: 0};
-      colorPalette[4] = {r: 255, g: 255, b: 0};
-      colorPalette[5] = {r: 150, g: 0, b: 0};
-      break;
-    case 'twotone':
-      pixersInRow = 30;
-      pixersInCol = 30;
-      randomPlacement = true;
-      colorPalette[0] = {r: 55, g: 255, b: 0};
-      colorPalette[1] = {r: 220, g: 0, b: 220};
-      break;
-    case 'horizon':
-      pixersInRow = 500;
-      pixersInCol = 1;
-      randomPlacement = false;
-      colorPalette[0] = {r: 55, g: 25, b: 0};
-      colorPalette[1] = {r: 180, g: 255, b: 100};
-      colorPalette[2] = {r: 255, g: 20, b: 30};
-      colorPalette[3] = {r: 0, g: 255, b: 255};
-  }
+  pixersInRow = presets[preset].pixersInRow;
+  pixersInCol = presets[preset].pixersInCol;
+  randomPlacement = presets[preset].randomPlacement;
+  colorPalette = presets[preset].colorPalette;
 
   updateControlPanel();
   el('#color-palette').innerHTML = '';
