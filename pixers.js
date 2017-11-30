@@ -33,9 +33,13 @@ function rgb(r, g, b) {
 function normalizeInputValue(input, min, max) {
   if (parseInt(input.value, 10) < min || isNaN(input.value)) {
     input.value = min;
+    return min;
   } else if (parseInt(input.value, 10) > max) {
     input.value = max;
+    return max;
   }
+
+  return parseInt(input.value, 10);
 }
 
 let acrossCount;
@@ -64,7 +68,6 @@ let minY = 0;
 let pixersInRow = randomInt(1, 50);
 let pixersInCol = randomInt(1, 50);
 let colorPalette = [];
-let numColors;
 let pixers = [];
 let numPixers = pixersInRow * pixersInCol;
 let spaceBetweenPixersX = calculateSpacing(pixersInRow, canvasWidth);
@@ -153,28 +156,13 @@ window.onload = function go() {
   downCount = el('#pixers_down');
   acrossCount.addEventListener('input', updatePixerCount);
   downCount.addEventListener('input', updatePixerCount);
+
   acrossCount.addEventListener('blur', function() {
-    if (isNaN(parseInt(el('#pixers_across').value, 10))) {
-      el('#pixers_across').value = 1;
-    } else if (parseInt(el('#pixers_across').value, 10) < 0) {
-      el('#pixers_across').value = 1;
-    } else if (parseInt(el('#pixers_across').value, 10) > 600) {
-      el('#pixers_across').value = 600;
-    }
-    pixersInRow = newPxAcross;
-    pixersInCol = newPxDown;
+    pixersInRow = normalizeInputValue(el('#pixers_across'), 1, 600);
   });
 
   downCount.addEventListener('blur', function() {
-    if (isNaN(parseInt(el('#pixers_down').value, 10))) {
-      el('#pixers_down').value = 1;
-    } else if (parseInt(el('#pixers_down').value, 10) < 0) {
-      el('#pixers_down').value = 1;
-    } else if (parseInt(el('#pixers_down').value, 10) > 400) {
-      el('#pixers_down').value = 400;
-    }
-    pixersInRow = newPxAcross;
-    pixersInCol = newPxDown;
+    pixersInCol = normalizeInputValue(el('#pixers_down'), 1, 600);
   });
 
   rInput = el('#color_r');
@@ -225,7 +213,7 @@ function loop() {
 }
 
 function initializeColorPalette() {
-  numColors = randomInt(2, 9);
+  const numColors = randomInt(2, 9);
   colorPalette = [];
 
   for (let c = 0; c < numColors; c++) {
@@ -241,11 +229,10 @@ function initializePixersToControls() {
   numPixers = pixersInCol * pixersInRow;
   spaceBetweenPixersX = calculateSpacing(pixersInRow, canvasWidth);
   spaceBetweenPixersY = calculateSpacing(pixersInCol, canvasHeight);
-  numColors = colorPalette.length;
   pixers = [];
   let row = -1;
   for (let i = 0; i < numPixers; i++) {
-    colorSwitch = Math.floor(Math.random() * numColors);
+    colorSwitch = Math.floor(Math.random() * colorPalette.length);
 
     let col = i % pixersInRow;
     if (col === 0) { row++; }
@@ -272,7 +259,7 @@ function initializePixers() {
   pixers = [];
   randomPlacement = randomInt(0, 1);
   for (let i = 0; i < numPixers; i++) {
-    colorSwitch = Math.floor(Math.random() * numColors);
+    colorSwitch = Math.floor(Math.random() * colorPalette.length);
 
     let col = i % pixersInRow;
     if (col == 0) { row++; }
@@ -297,7 +284,6 @@ function choosePreset(preset) {
   colorPalette = [];
   switch (preset) {
     case 'simple':
-      numColors = 6;
       pixersInRow = 20;
       pixersInCol = 20;
       randomPlacement = false;
@@ -309,7 +295,6 @@ function choosePreset(preset) {
       colorPalette[5] = {r: 0, g: 255, b: 255};
       break;
     case 'lines':
-      numColors = 6;
       pixersInRow = 200;
       pixersInCol = 3;
       randomPlacement = false;
@@ -321,7 +306,6 @@ function choosePreset(preset) {
       colorPalette[5] = {r: 0, g: 255, b: 255};
       break;
     case 'clouds':
-      numColors = 5;
       pixersInRow = 24;
       pixersInCol = 12;
       randomPlacement = true;
@@ -332,7 +316,6 @@ function choosePreset(preset) {
       colorPalette[4] = {r: 220, g: 230, b: 255};
       break;
     case 'trees':
-      numColors = 5;
       pixersInRow = 4;
       pixersInCol = 120;
       randomPlacement = false;
@@ -343,7 +326,6 @@ function choosePreset(preset) {
       colorPalette[4] = {r: 100, g: 50, b: 0};
       break;
     case 'fire':
-      numColors = 6;
       pixersInRow = 40;
       pixersInCol = 40;
       randomPlacement = true;
@@ -355,7 +337,6 @@ function choosePreset(preset) {
       colorPalette[5] = {r: 150, g: 0, b: 0};
       break;
     case 'twotone':
-      numColors = 2;
       pixersInRow = 30;
       pixersInCol = 30;
       randomPlacement = true;
@@ -363,7 +344,6 @@ function choosePreset(preset) {
       colorPalette[1] = {r: 220, g: 0, b: 220};
       break;
     case 'horizon':
-      numColors = 4;
       pixersInRow = 500;
       pixersInCol = 1;
       randomPlacement = false;
