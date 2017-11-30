@@ -44,9 +44,6 @@ function normalizeInputValue(input, min, max) {
 
 let acrossCount;
 let downCount;
-let rInput;
-let gInput;
-let bInput;
 let colordisplay;
 let framecounter = el('#framecounter');
 let canvas = el('#canvas');
@@ -102,9 +99,9 @@ function onPaletteColorFocus(evt) {
   }
 
   addClass(evt.target, 'editing');
-  rInput.value = evt.target.dataset.r;
-  gInput.value = evt.target.dataset.g;
-  bInput.value = evt.target.dataset.b;
+  el('#color_r').value = evt.target.dataset.r;
+  el('#color_g').value = evt.target.dataset.g;
+  el('#color_b').value = evt.target.dataset.b;
   editingPaletteIndex = evt.target.dataset.paletteIndex;
   el('#editing-color-index').innerHTML = editingPaletteIndex;
   show(el('#color-editor'));
@@ -165,26 +162,19 @@ window.onload = function go() {
     pixersInCol = normalizeInputValue(el('#pixers_down'), 1, 600);
   });
 
-  rInput = el('#color_r');
-  gInput = el('#color_g');
-  bInput = el('#color_b');
-
-  rInput.addEventListener('input', editColor);
-  rInput.addEventListener('blur', function() {
-    if (rInput.value == '')
-      rInput.value = 0;
+  el('#color_r').addEventListener('input', editColor);
+  el('#color_r').addEventListener('blur', function() {
+    normalizeInputValue(el('#color_r'), 0, 255);
   });
 
-  gInput.addEventListener('input', editColor);
-  gInput.addEventListener('blur', function() {
-    if (gInput.value == '')
-      gInput.value = 0;
+  el('#color_g').addEventListener('input', editColor);
+  el('#color_g').addEventListener('blur', function() {
+    normalizeInputValue(el('#color_g'), 0, 255);
   });
 
-  bInput.addEventListener('input', editColor);
-  bInput.addEventListener('blur', function() {
-    if (bInput.value == '')
-      bInput.value = 0;
+  el('#color_b').addEventListener('input', editColor);
+  el('#color_b').addEventListener('blur', function() {
+    normalizeInputValue(el('#color_b'), 0, 255);
   });
 
   el('#remove-color').addEventListener('blur', onPaletteColorBlur);
@@ -403,15 +393,15 @@ function updatePixerCount() {
 
 function editColor() {
   if (editingPaletteIndex > -1) {
-    normalizeInputValue(rInput, 0, 255);
-    normalizeInputValue(gInput, 0, 255);
-    normalizeInputValue(bInput, 0, 255);
+    const newR = normalizeInputValue(el('#color_r'), 0, 255);
+    const newG = normalizeInputValue(el('#color_g'), 0, 255);
+    const newB = normalizeInputValue(el('#color_b'), 0, 255);
 
-    colorPalette[editingPaletteIndex].g = parseInt(gInput.value, 10);
-    colorPalette[editingPaletteIndex].b = parseInt(bInput.value, 10);
-    colorPalette[editingPaletteIndex].r = parseInt(rInput.value, 10);
+    colorPalette[editingPaletteIndex].r = newR;
+    colorPalette[editingPaletteIndex].g = newG;
+    colorPalette[editingPaletteIndex].b = newB;
 
-    let newbg = rgb(rInput.value, gInput.value, bInput.value);
+    const newbg = rgb(newR, newG, newB);
     el('[data-palette-index="' + editingPaletteIndex + '"]').style.background = newbg;
   }
 }
