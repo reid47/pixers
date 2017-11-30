@@ -372,15 +372,24 @@ function choosePreset(preset) {
       colorPalette[2] = {r: 255, g: 20, b: 30};
       colorPalette[3] = {r: 0, g: 255, b: 255};
   }
+
   updateControlPanel();
+  el('#color-palette').innerHTML = '';
+  for (let c = 0; c < colorPalette.length; c++) {
+    addPaletteColor(
+      colorPalette[c].r,
+      colorPalette[c].g,
+      colorPalette[c].b,
+      c);
+  }
 }
 
 function randomizeAll() {
-  numColors = randomInt(2, 9);
+  const newNumColors = randomInt(2, 9);
   colorPalette = [];
 
   el('#color-palette').innerHTML = '';
-  for (let c = 0; c < numColors; c++) {
+  for (let c = 0; c < newNumColors; c++) {
     addPaletteColor(
       randomInt(0, 255),
       randomInt(0, 255),
