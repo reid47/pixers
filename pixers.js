@@ -193,7 +193,8 @@ function loop() {
     for (let x = 0; x < numPixers; x++) {
       pixers[x].takeStep();
     }
-    updateCanvas();
+
+    ctx.putImageData(canvasData, 0, 0);
 
     framecounter.innerHTML = frameCount;
     frameCount++;
@@ -419,10 +420,6 @@ function setToWhite() {
     canvasData.data[i] = 255;
   }
 
-  updateCanvas();
-}
-
-function updateCanvas() {
   ctx.putImageData(canvasData, 0, 0);
 }
 
