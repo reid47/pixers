@@ -7,7 +7,8 @@ const settings = {
   canvasHeight: 480,
   maxFrames: Infinity,
   untilFilled: true,
-  pixerCount: 3
+  pixerCount: 30,
+  colorPalette: [[2, 10, 181], [250, 250, 255], [200, 200, 255], [5, 50, 255], [220, 230, 255]]
 };
 
 const start = Date.now();
@@ -19,7 +20,15 @@ const pixers = [];
 for (let i = 0; i < settings.pixerCount; i++) {
   const x = randomInt(0, settings.canvasWidth);
   const y = randomInt(0, settings.canvasHeight);
-  const [r, g, b] = [randomInt(0, 255), randomInt(0, 255), randomInt(0, 255)];
+
+  let r, g, b;
+  if (settings.colorPalette && settings.colorPalette.length) {
+    const colorIndex = randomInt(0, settings.colorPalette.length);
+    [r, g, b] = settings.colorPalette[colorIndex];
+  } else {
+    [r, g, b] = [randomInt(0, 255), randomInt(0, 255), randomInt(0, 255)];
+  }
+
   pixers.push(new Pixer(canvas, x, y, r, g, b));
 }
 
