@@ -15,9 +15,9 @@ function run(settings) {
     const y = randomInt(0, settings.height);
 
     let r, g, b;
-    if (settings.palette && settings.palette.length) {
-      const colorIndex = randomInt(0, settings.palette.length - 1);
-      [r, g, b] = settings.palette[colorIndex];
+    if (settings.colors && settings.colors.length) {
+      const colorIndex = randomInt(0, settings.colors.length - 1);
+      [r, g, b] = settings.colors[colorIndex];
     } else {
       [r, g, b] = [randomInt(0, 255), randomInt(0, 255), randomInt(0, 255)];
     }

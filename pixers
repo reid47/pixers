@@ -19,15 +19,22 @@ const { argv } = yargs
     describe: 'Number of pixers to draw with',
     default: 20
   })
-  .option('palette', {
+  .option('colors', {
     type: 'array',
-    alias: 'p',
+    alias: 'c',
     describe:
       'Color to add to starting color palette. ' +
       'Can be passed multiple times to add multiple colors. ' +
       'Each should be a string of RGB values, comma-separated with ' +
-      'no spaces (e.g. "-p 120,130,140")',
-    coerce: values => values.map(value => value.split(',').map(Number)),
+      'no spaces (e.g. "-c 120,130,140")',
+    coerce: values => {
+      return values
+        .map(value => {
+          if (Array.isArray(value)) return value.map(Number);
+          if (typeof value === 'string') return value.split(',').map(Number);
+        })
+        .filter(Boolean);
+    },
     default: []
   })
   .option('fill', {
@@ -48,7 +55,7 @@ const settings = {
   number: argv.number,
   fill: argv.fill,
   max: argv.max,
-  palette: argv.palette
+  colors: argv.colors
 };
 
 run(settings);
