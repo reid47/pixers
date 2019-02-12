@@ -73,7 +73,7 @@ let spaceBetweenPixersY = calculateSpacing(pixersInCol, canvasHeight);
 function addPaletteColor(r, g, b, index) {
   if (colorPalette.length >= 10) return;
 
-  colorPalette.push({r: r, g: g, b: b});
+  colorPalette.push({ r: r, g: g, b: b });
 
   const paletteEl = el('#color-palette');
   const newBox = document.createElement('div');
@@ -108,9 +108,12 @@ function onPaletteColorFocus(evt) {
 }
 
 function onPaletteColorBlur(evt) {
-  if (evt.relatedTarget &&
-    (evt.relatedTarget.classList.contains('colorinput')
-      || evt.relatedTarget.getAttribute('id') === 'remove-color')) return;
+  if (
+    evt.relatedTarget &&
+    (evt.relatedTarget.classList.contains('colorinput') ||
+      evt.relatedTarget.getAttribute('id') === 'remove-color')
+  )
+    return;
 
   editingPaletteIndex = -1;
   const boxes = els('.color-palette-item');
@@ -128,14 +131,13 @@ function onPaletteColorKey(evt) {
 
   if (key === 37 /*left*/) {
     if (evt.target) {
-      console.log(evt.target)
-      nextFocusedElement = evt.target.previousElementSibling
-        || evt.target.parentNode.lastElementChild;
+      console.log(evt.target);
+      nextFocusedElement =
+        evt.target.previousElementSibling || evt.target.parentNode.lastElementChild;
     }
   } else if (key === 39 /*right*/) {
     if (evt.target) {
-      nextFocusedElement = evt.target.nextElementSibling
-        || evt.target.parentNode.firstElementChild;
+      nextFocusedElement = evt.target.nextElementSibling || evt.target.parentNode.firstElementChild;
     }
   }
 
@@ -184,7 +186,7 @@ window.onload = function go() {
   updateControlPanel();
 
   loop();
-}
+};
 
 function loop() {
   clearTimeout(timer);
@@ -226,7 +228,9 @@ function initializePixersToControls() {
     colorSwitch = Math.floor(Math.random() * colorPalette.length);
 
     let col = i % pixersInRow;
-    if (col === 0) { row++; }
+    if (col === 0) {
+      row++;
+    }
 
     theR = colorPalette[colorSwitch].r;
     theG = colorPalette[colorSwitch].g;
@@ -236,8 +240,8 @@ function initializePixersToControls() {
       theX = randomInt(0, canvasWidth);
       theY = randomInt(0, canvasHeight);
     } else {
-      theX = spaceBetweenPixersX * col + Math.round((spaceBetweenPixersX / 2));
-      theY = spaceBetweenPixersY * row + Math.round((spaceBetweenPixersY / 2));
+      theX = spaceBetweenPixersX * col + Math.round(spaceBetweenPixersX / 2);
+      theY = spaceBetweenPixersY * row + Math.round(spaceBetweenPixersY / 2);
     }
 
     pixers[i] = new Pixer(theX, theY, theR, theG, theB, 255);
@@ -253,7 +257,9 @@ function initializePixers() {
     colorSwitch = Math.floor(Math.random() * colorPalette.length);
 
     let col = i % pixersInRow;
-    if (col == 0) { row++; }
+    if (col == 0) {
+      row++;
+    }
 
     theR = colorPalette[colorSwitch].r;
     theG = colorPalette[colorSwitch].g;
@@ -263,8 +269,8 @@ function initializePixers() {
       theX = randomInt(0, canvasWidth);
       theY = randomInt(0, canvasHeight);
     } else {
-      theX = spaceBetweenPixersX * col + Math.round((spaceBetweenPixersX/2));
-      theY = spaceBetweenPixersY * row + Math.round((spaceBetweenPixersY/2));
+      theX = spaceBetweenPixersX * col + Math.round(spaceBetweenPixersX / 2);
+      theY = spaceBetweenPixersY * row + Math.round(spaceBetweenPixersY / 2);
     }
 
     pixers[i] = new Pixer(theX, theY, theR, theG, theB, 255);
@@ -284,11 +290,7 @@ function choosePreset(preset) {
   updateControlPanel();
   el('#color-palette').innerHTML = '';
   for (let c = 0; c < colorPalette.length; c++) {
-    addPaletteColor(
-      colorPalette[c].r,
-      colorPalette[c].g,
-      colorPalette[c].b,
-      c);
+    addPaletteColor(colorPalette[c].r, colorPalette[c].g, colorPalette[c].b, c);
   }
 }
 
@@ -298,11 +300,7 @@ function randomizeAll() {
 
   el('#color-palette').innerHTML = '';
   for (let c = 0; c < newNumColors; c++) {
-    addPaletteColor(
-      randomInt(0, 255),
-      randomInt(0, 255),
-      randomInt(0, 255),
-      c);
+    addPaletteColor(randomInt(0, 255), randomInt(0, 255), randomInt(0, 255), c);
   }
 
   randomPlacement = Math.floor(Math.random() * 2);
@@ -357,11 +355,7 @@ function removePaletteColor() {
     editingPaletteIndex = -1;
     el('#color-palette').innerHTML = '';
     for (let c = 0; c < oldPalette.length; c++) {
-      addPaletteColor(
-        oldPalette[c].r,
-        oldPalette[c].g,
-        oldPalette[c].b,
-        c);
+      addPaletteColor(oldPalette[c].r, oldPalette[c].g, oldPalette[c].b, c);
     }
     hide(el('#color-editor'));
     el('#add-color').focus();
@@ -448,15 +442,35 @@ function Pixer(x, y, r, g, b, a) {
 Pixer.prototype.takeStep = function() {
   const dir = Math.floor(Math.random() * 8);
 
-  switch(dir) {
-    case 0: this.x++; this.y--; break;
-    case 1: this.x++; break;
-    case 2: this.x++; this.y++; break;
-    case 3: this.y++; break;
-    case 4: this.x--; this.y++; break;
-    case 5: this.x--; break;
-    case 6: this.x--; this.y--; break;
-    case 7: this.y--; break;
+  switch (dir) {
+    case 0:
+      this.x++;
+      this.y--;
+      break;
+    case 1:
+      this.x++;
+      break;
+    case 2:
+      this.x++;
+      this.y++;
+      break;
+    case 3:
+      this.y++;
+      break;
+    case 4:
+      this.x--;
+      this.y++;
+      break;
+    case 5:
+      this.x--;
+      break;
+    case 6:
+      this.x--;
+      this.y--;
+      break;
+    case 7:
+      this.y--;
+      break;
   }
 
   if (this.x < minX) {
@@ -465,20 +479,31 @@ Pixer.prototype.takeStep = function() {
     this.x = minX;
   }
 
-  if (this.y < minY) { this.y = maxY; }
-  else if (this.y > maxY) { this.y = minY; }
+  if (this.y < minY) {
+    this.y = maxY;
+  } else if (this.y > maxY) {
+    this.y = minY;
+  }
 
   this.colorPixel(this.x, this.y, this.r, this.g, this.b, this.a);
-}
+};
 
 Pixer.prototype.colorPixel = function(x, y, r, g, b, a) {
   const index = (x + y * canvasWidth) * 4;
 
-  if (canvasData.data[index + 0] == 255 && canvasData.data[index + 1] == 255 && canvasData.data[index + 2] == 255) {
+  if (
+    canvasData.data[index + 0] == 255 &&
+    canvasData.data[index + 1] == 255 &&
+    canvasData.data[index + 2] == 255
+  ) {
     canvasData.data[index + 0] = r;
     canvasData.data[index + 1] = g;
     canvasData.data[index + 2] = b;
-  } else if (canvasData.data[index + 0] == r && canvasData.data[index + 1] == g && canvasData.data[index + 2] == b) {
+  } else if (
+    canvasData.data[index + 0] == r &&
+    canvasData.data[index + 1] == g &&
+    canvasData.data[index + 2] == b
+  ) {
     canvasData.data[index + 0] = r;
     canvasData.data[index + 1] = g;
     canvasData.data[index + 2] = b;
@@ -491,4 +516,4 @@ Pixer.prototype.colorPixel = function(x, y, r, g, b, a) {
   this.r = Math.round((canvasData.data[index + 0] + r) / 2);
   this.g = Math.round((canvasData.data[index + 1] + g) / 2);
   this.b = Math.round((canvasData.data[index + 2] + b) / 2);
-}
+};

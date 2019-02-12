@@ -1,0 +1,11 @@
+{
+  "name": "pixers",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/reid47/pixers.git",
+  "author": "Reid Mitchell <reidmitchell1@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "canvas": "^2.3.1"
+  }
+}

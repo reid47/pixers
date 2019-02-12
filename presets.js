@@ -66,10 +66,7 @@ const presets = {
     pixersInRow: 30,
     pixersInCol: 30,
     randomPlacement: true,
-    colorPalette: [
-      { r: 55, g: 255, b: 0 },
-      { r: 220, g: 0, b: 220 }
-    ]
+    colorPalette: [{ r: 55, g: 255, b: 0 }, { r: 220, g: 0, b: 220 }]
   },
   horizon: {
     pixersInRow: 500,
