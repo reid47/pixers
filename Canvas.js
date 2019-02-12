@@ -32,7 +32,7 @@ class Canvas {
     }
   }
 
-  saveToFile(fileName = `test-${Date.now()}.png`) {
+  saveToFile(fileName) {
     const canvas = createCanvas(this.width, this.height);
     const ctx = canvas.getContext('2d');
     const canvasData = ctx.getImageData(0, 0, this.width, this.height);

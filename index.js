@@ -3,12 +3,15 @@ const { Pixer } = require('./Pixer');
 const { randomInt } = require('./utils');
 
 const settings = {
-  canvasWidth: 100,
-  canvasHeight: 100,
+  canvasWidth: 640,
+  canvasHeight: 480,
   maxFrames: Infinity,
   untilFilled: true,
   pixerCount: 3
 };
+
+const start = Date.now();
+console.log('Starting...');
 
 const canvas = new Canvas(settings.canvasWidth, settings.canvasHeight);
 
@@ -31,4 +34,7 @@ while (true) {
   if (frameCount > settings.maxFrames) break;
 }
 
-canvas.saveToFile();
+canvas.saveToFile(`out/test-${start}.png`);
+
+const seconds = (Date.now() - start) / 1000;
+console.log(`Done in ${seconds}s (${frameCount} frames).`);
