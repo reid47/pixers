@@ -1,0 +1,54 @@
+#!/usr/bin/env node
+
+const yargs = require('yargs');
+const { run } = require('./src');
+
+const { argv } = yargs
+  .option('width', {
+    alias: 'w',
+    describe: 'Width of canvas',
+    default: 600
+  })
+  .option('height', {
+    alias: 'h',
+    describe: 'Height of canvas',
+    default: 600
+  })
+  .option('number', {
+    alias: 'n',
+    describe: 'Number of pixers to draw with',
+    default: 20
+  })
+  .option('palette', {
+    type: 'array',
+    alias: 'p',
+    describe:
+      'Color to add to starting color palette. ' +
+      'Can be passed multiple times to add multiple colors. ' +
+      'Each should be a string of RGB values, comma-separated with ' +
+      'no spaces (e.g. "-p 120,130,140")',
+    coerce: values => values.map(value => value.split(',').map(Number)),
+    default: []
+  })
+  .option('fill', {
+    describe: 'Fill canvas completely before saving',
+    default: true
+  })
+  .option('max', {
+    describe: 'Max number of frames to draw',
+    default: null
+  })
+  .config('preset', 'Preset JSON file to base settings on')
+  .help()
+  .hide('version');
+
+const settings = {
+  height: argv.height,
+  width: argv.width,
+  number: argv.number,
+  fill: argv.fill,
+  max: argv.max,
+  palette: argv.palette
+};
+
+run(settings);

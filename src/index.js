@@ -1,41 +1,45 @@
 const { Canvas } = require('./Canvas');
 const { Pixer } = require('./Pixer');
 const { randomInt } = require('./utils');
-const settings = require('../settings.json');
 
-const start = Date.now();
-console.log('Starting...');
+function run(settings) {
+  console.log(`Starting with settings: ${JSON.stringify(settings, null, 2)}`);
 
-const canvas = new Canvas(settings.canvasWidth, settings.canvasHeight);
+  const start = Date.now();
 
-const pixers = [];
-for (let i = 0; i < settings.pixerCount; i++) {
-  const x = randomInt(0, settings.canvasWidth);
-  const y = randomInt(0, settings.canvasHeight);
+  const canvas = new Canvas(settings.width, settings.height);
+  const pixers = [];
 
-  let r, g, b;
-  if (settings.colorPalette && settings.colorPalette.length) {
-    const colorIndex = randomInt(0, settings.colorPalette.length - 1);
-    [r, g, b] = settings.colorPalette[colorIndex];
-  } else {
-    [r, g, b] = [randomInt(0, 255), randomInt(0, 255), randomInt(0, 255)];
+  for (let i = 0; i < settings.number; i++) {
+    const x = randomInt(0, settings.width);
+    const y = randomInt(0, settings.height);
+
+    let r, g, b;
+    if (settings.palette && settings.palette.length) {
+      const colorIndex = randomInt(0, settings.palette.length - 1);
+      [r, g, b] = settings.palette[colorIndex];
+    } else {
+      [r, g, b] = [randomInt(0, 255), randomInt(0, 255), randomInt(0, 255)];
+    }
+
+    pixers.push(new Pixer(canvas, x, y, r, g, b));
   }
 
-  pixers.push(new Pixer(canvas, x, y, r, g, b));
+  let frameCount = 0;
+
+  while (true) {
+    pixers.forEach(pixer => pixer.takeStep());
+
+    frameCount++;
+
+    if (settings.fill && canvas.filled) break;
+    if (settings.max && frameCount > settings.max) break;
+  }
+
+  canvas.saveToFile(`../out/test-${start}.png`);
+
+  const seconds = (Date.now() - start) / 1000;
+  console.log(`Done in ${seconds}s (${frameCount} frames).`);
 }
 
-let frameCount = 0;
-
-while (true) {
-  pixers.forEach(pixer => pixer.takeStep());
-
-  frameCount++;
-
-  if (settings.untilFilled && canvas.filled) break;
-  if (settings.maxFrames && frameCount > settings.maxFrames) break;
-}
-
-canvas.saveToFile(`../out/test-${start}.png`);
-
-const seconds = (Date.now() - start) / 1000;
-console.log(`Done in ${seconds}s (${frameCount} frames).`);
+module.exports.run = run;

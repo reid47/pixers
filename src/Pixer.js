@@ -51,11 +51,15 @@ class Pixer {
   paint() {
     const [r, g, b, filled] = this.canvas.getPixel(this.x, this.y);
 
-    const newR = (this.r = filled ? average(r, this.r) : this.r);
-    const newG = (this.g = filled ? average(g, this.g) : this.g);
-    const newB = (this.b = filled ? average(b, this.b) : this.b);
+    const newR = filled ? average(r, this.r) : this.r;
+    const newG = filled ? average(g, this.g) : this.g;
+    const newB = filled ? average(b, this.b) : this.b;
 
     this.canvas.setPixel(this.x, this.y, newR, newG, newB);
+
+    this.r = average(newR, this.r);
+    this.g = average(newG, this.g);
+    this.b = average(newB, this.b);
   }
 }
 

@@ -1,8 +1,8 @@
 {
-  "canvasWidth": 640,
-  "canvasHeight": 480,
-  "maxFrames": null,
-  "untilFilled": true,
-  "pixerCount": 10,
+  "width": 1000,
+  "height": 1000,
+  "count": 100,
+  "max": null,
+  "fill": true,
   "colorPalette": [[2, 10, 181], [250, 250, 255], [200, 200, 255], [5, 50, 255], [220, 230, 255]]
 }

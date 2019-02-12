@@ -6,6 +6,7 @@
   "author": "Reid Mitchell <reidmitchell1@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "canvas": "^2.3.1"
+    "canvas": "^2.3.1",
+    "yargs": "^13.1.0"
   }
 }
