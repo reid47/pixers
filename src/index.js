@@ -1,8 +1,7 @@
 const { Canvas } = require('./Canvas');
 const { Pixer } = require('./Pixer');
 const { randomInt } = require('./utils');
-
-const settings = require('./settings.json');
+const settings = require('../settings.json');
 
 const start = Date.now();
 console.log('Starting...');
@@ -36,7 +35,7 @@ while (true) {
   if (settings.maxFrames && frameCount > settings.maxFrames) break;
 }
 
-canvas.saveToFile(`out/test-${start}.png`);
+canvas.saveToFile(`../out/test-${start}.png`);
 
 const seconds = (Date.now() - start) / 1000;
 console.log(`Done in ${seconds}s (${frameCount} frames).`);
