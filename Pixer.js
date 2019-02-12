@@ -1,5 +1,8 @@
+const { randomInt, wrapAround, average } = require('./utils');
+
 class Pixer {
-  constructor(x, y, r, g, b) {
+  constructor(canvas, x, y, r, g, b) {
+    this.canvas = canvas;
     this.x = x;
     this.y = y;
     this.r = r;
@@ -8,9 +11,7 @@ class Pixer {
   }
 
   takeStep() {
-    const dir = Math.floor(Math.random() * 8);
-
-    switch (dir) {
+    switch (randomInt(0, 7)) {
       case 0:
         this.x++;
         this.y--;
@@ -41,53 +42,21 @@ class Pixer {
         break;
     }
 
-    if (this.x < minX) {
-      this.x = maxX;
-    } else if (this.x > maxX) {
-      this.x = minX;
-    }
+    this.x = wrapAround(this.x, 0, this.canvas.width - 1);
+    this.y = wrapAround(this.y, 0, this.canvas.height - 1);
 
-    if (this.y < minY) {
-      this.y = maxY;
-    } else if (this.y > maxY) {
-      this.y = minY;
-    }
-
-    this.colorPixel(this.x, this.y, this.r, this.g, this.b);
+    this.paint();
   }
 
-  colorPixel(x, y, r, g, b) {
-    const index = (x + y * canvasWidth) * 4;
+  paint() {
+    const [r, g, b, filled] = this.canvas.getPixel(this.x, this.y);
 
-    if (
-      canvasData.data[index + 0] === 255 &&
-      canvasData.data[index + 1] === 255 &&
-      canvasData.data[index + 2] === 255
-    ) {
-      // If this pixel is all white, replace its color with my color
-      canvasData.data[index + 0] = r;
-      canvasData.data[index + 1] = g;
-      canvasData.data[index + 2] = b;
-    } else if (
-      canvasData.data[index + 0] === r &&
-      canvasData.data[index + 1] === g &&
-      canvasData.data[index + 2] === b
-    ) {
-      // If this pixel is already my color, do nothing
-    } else {
-      canvasData.data[index + 0] = Math.round(
-        (canvasData.data[index + 0] + r) / 2
-      );
-      canvasData.data[index + 1] = Math.round(
-        (canvasData.data[index + 1] + g) / 2
-      );
-      canvasData.data[index + 2] = Math.round(
-        (canvasData.data[index + 2] + b) / 2
-      );
-    }
+    const newR = filled ? average(r, this.r) : this.r;
+    const newG = filled ? average(g, this.g) : this.g;
+    const newB = filled ? average(b, this.b) : this.b;
 
-    this.r = Math.round((canvasData.data[index + 0] + r) / 2);
-    this.g = Math.round((canvasData.data[index + 1] + g) / 2);
-    this.b = Math.round((canvasData.data[index + 2] + b) / 2);
+    this.canvas.setPixel(this.x, this.y, newR, newG, newB);
   }
 }
+
+module.exports.Pixer = Pixer;
