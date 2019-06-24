@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>pixers</title>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="description" content="A generative art project in JavaScript.">
+  <meta name="keywords" content="generative art,color,algorithmic art,pixels,JavaScript">
+  <meta name="author" content="Reid Mitchell">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" type="text/css" href="pixers.css">
+</head>
+<body>
+  <h1 id="title">pixers</h1>
+
+  <canvas id="canvas" width="800px" height="600px"></canvas>
+
+  <div id="canvas-info">
+    <span id="controls">
+      <button onclick="togglePlay()"><span id="pausetxt">pause</span></button> |
+      <button id="clear" onclick="clearCanvas()">clear</button>
+    </span>
+    <span id="frame-info">frame count: <span id="framecounter"></span></span>
+  </div>
+
+  <div id="pixer-settings">
+    <div>
+      <label for="pixers_across">pixers across:</label>
+      <input type="number" id="pixers_across" value="" min="1" max="600">
+    </div>
+    <div>
+      <label for="pixers_down">pixers down:</label>
+      <input type="number" id="pixers_down" value="" min="1" max="400">
+    </div>
+    <div>
+      <label>starting positions:</label>
+      <button id="position_random" class="action-button" onclick="setPosition('random')">random</button><button id="position_even" class="action-button" onclick="setPosition('even')">spaced evenly</button>
+    </div>
+  </div>
+
+  <div id="color-settings">
+    <label>color palette (select a color to edit):</label>
+    <button id="add-color" onclick="addPaletteColor(255, 255, 255, -1)">add new color</button>
+    <div id="color-palette"></div>
+  </div>
+
+  <div id="color-editor" class="hidden">
+    <div>
+      <label>editing color <span id="editing-color-index"></span></label>
+    </div>
+    <div>
+      <label for="color_r">r:</label>
+      <input type="number" min="0" max="255" class="colorinput" id="color_r" value="">
+      <label for="color_g">g:</label>
+      <input type="number" min="0" max="255" class="colorinput" id="color_g" value="">
+      <label for="color_b">b:</label>
+      <input type="number" min="0" max="255" class="colorinput" id="color_b" value="">
+    </div>
+    <div>
+      <button id="remove-color" onclick="removePaletteColor()">remove this color</button>
+    </div>
+  </div>
+
+  <div id="settings-buttons">
+    <button id="btn_randomize" class="action-button" onclick="randomizeAll()">randomize all settings</button>
+    <button id="btn_restart" class="action-button" onclick="restartDrawing()">restart drawing with these settings</button>
+  </div>
+
+  <div id="preset-links">
+    <div id="preset-links-info">some presets for inspiration:</div>
+    <button onclick="choosePreset('simple')">simple</button> |
+    <button onclick="choosePreset('lines')">lines</button> |
+    <button onclick="choosePreset('clouds')">clouds</button> |
+    <button onclick="choosePreset('fire')">fire</button> |
+    <button onclick="choosePreset('trees')">trees</button> |
+    <button onclick="choosePreset('twotone')">two-tone</button> |
+    <button onclick="choosePreset('horizon')">horizon</button>
+  </div>
+
+  <button onclick="toggleInfoBox()" id="toggle-info">what is this?</button>
+
+  <div id="infobox">
+    <p>
+      Pixers are tiny (1px by 1px) creatures. They move completely
+      randomly. To start, each pixer is randomly assigned a color
+      from the chosen color palette.
+    </p><p>
+      When a pixer passes over a blank pixel, the pixel takes on
+      the pixer's color. When a pixer passes over a colored pixel,
+      the color of the pixel and the color of the pixer are
+      averaged. Both pixel and pixer take on this average color.
+      The pixel remains, but the pixer keeps moving, blending
+      colors together.
+    </p><p>
+      I encourage you to play with the settings and see what you
+      can make the pixers do. Even when using the same settings,
+      no two pixer drawings are alike.
+    </p><p>
+      a project by <a href="http://reidmitchell.net" target="_blank">reid</a>
+      | view the source on <a href="https://github.com/reid47/pixers/" target="_blank">GitHub</a>
+    </p>
+  </div>
+
+  <script src="presets.js"></script>
+  <script src="pixers.js"></script>
+</body>
+</html>
