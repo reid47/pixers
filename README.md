@@ -2,7 +2,7 @@
 
 A generative art project, in JavaScript.
 
-[See it live](http://pixers.reidmitchell.net/)
+[See it live](https://pixers.reidmitchell.net/)
 
 > Pixers are tiny (1px by 1px) creatures. They move completely randomly. To start, each pixer is randomly assigned a color from the chosen color palette.
 >
